@@ -21,6 +21,8 @@ Route::get('/', function () {
     return view('landing-page');
 });
 
+// Route::middlewareGroup()
+
 
 Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
 

@@ -6,7 +6,7 @@
         <p class="text-4xl text-center pt-4">LaporPak!</p>
     </div>
     <div class="pt-4">
-        {{-- @if (auth()->user()->role === 'admin') --}}
+        @if (Auth::guard('petugas')->user()->level == 'admin')
         <ul class="space-y-2 px-4">
             <li>
                 <a href="{{-- route('admin.dashboard') --}}"
@@ -46,8 +46,9 @@
                         </a>
                     </li>
                 </ul>
+
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('ghazwanView.admin.user.add') }}"
                     class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Tambah Akun Pengguna</span>
@@ -58,7 +59,8 @@
                     class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Tambah Akun Petugas</span>
                 </a>
-            </li>
+            </li> --}}
+
             <li>
                 <a href="{{-- route('admin.reports') --}}"
                     class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
@@ -66,7 +68,7 @@
                 </a>
             </li>
         </ul>
-        {{-- @elseif(auth()->user()->role === 'petugas') --}}
+        @elseif(Auth::guard('petugas')->user()->level === 'petugas')
         <ul class="space-y-2 px-4">
             <li>
                 <a href="{{-- route('petugas.dashboard') --}}"
@@ -81,6 +83,6 @@
                 </a>
             </li>
         </ul>
-        {{-- @endif --}}
+        @endif
     </div>
 </div>

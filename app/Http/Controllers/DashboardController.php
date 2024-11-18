@@ -15,5 +15,9 @@ class DashboardController extends Controller
         }else {
             return view('user.dashboard');
         }
+
+        // if(Auth::guard('petugas')->()){
+
+        // }
     }
 }

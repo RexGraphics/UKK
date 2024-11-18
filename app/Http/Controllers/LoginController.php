@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Petugas;
 use App\Models\Masyarakat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -75,44 +76,50 @@ class LoginController extends Controller
             'ghazwanPassword' => 'required',
         ]);
 
-        $ghazwanUsername = $request->ghazwanUsername;
-        $ghazwanPassword = $request->ghazwanPassword;
-
-        $ghazwanUser1 = Masyarakat::where('username', $ghazwanUsername)->first();
-        $ghazwanUser2 = Petugas::where('username', $ghazwanUsername)->first();
-
-        if($ghazwanUser1){
-            if(Hash::check($ghazwanPassword, $ghazwanUser1->password)){
-                // session(['ghazwanUser' => $ghazwanUser1]);
-                return redirect('/dashboard');
-            }else{
-                notify()->error('Login Gagal');
-
-                return redirect('/login');
-            }
-        }else{
-            if($ghazwanUser2->level == 'admin'){
-                if(Hash::check($ghazwanPassword, $ghazwanUser2->password)){
-                    // session(['ghazwanUser' => $ghazwanUser1]);
-                    return redirect('/dashboard');
-                }else{
-                    notify()->error('Login Gagal');
-
-                    return redirect('/login');
-                }
-            }else if($ghazwanUser2->level == 'petugas'){
-                if(Hash::check($ghazwanPassword, $ghazwanUser2->password)){
-                    // session(['ghazwanUser' => $ghazwanUser1]);
-                    return redirect('/petugas/dashboard');
-                }else{
-
-                    notify()->error('Login Gagal');
-
-                    return redirect('/login');
-                }
-            }
-
+        if(Auth::guard('petugas')->attempt(['username' => $request->ghazwanUsername, 'password' => $request->ghazwanPassword])){
+            return redirect('/dashboard');
+        }elseif(Auth::guard('masyarakat')->attempt(['username' => $request->ghazwanUsername, 'password' => $request->ghazwanPassword])){
+            return redirect('/dashboard');
         }
+
+        // $ghazwanUsername = $request->ghazwanUsername;
+        // $ghazwanPassword = $request->ghazwanPassword;
+
+        // $ghazwanUser1 = Masyarakat::where('username', $ghazwanUsername)->first();
+        // $ghazwanUser2 = Petugas::where('username', $ghazwanUsername)->first();
+
+        // if($ghazwanUser1){
+        //     if(Hash::check($ghazwanPassword, $ghazwanUser1->password)){
+        //         // session(['ghazwanUser' => $ghazwanUser1]);
+        //         return redirect('/dashboard');
+        //     }else{
+        //         notify()->error('Login Gagal');
+
+        //         return redirect('/login');
+        //     }
+        // }else{
+        //     if($ghazwanUser2->level == 'admin'){
+        //         if(Hash::check($ghazwanPassword, $ghazwanUser2->password)){
+        //             // session(['ghazwanUser' => $ghazwanUser1]);
+        //             return redirect('/dashboard');
+        //         }else{
+        //             notify()->error('Login Gagal');
+
+        //             return redirect('/login');
+        //         }
+        //     }else if($ghazwanUser2->level == 'petugas'){
+        //         if(Hash::check($ghazwanPassword, $ghazwanUser2->password)){
+        //             // session(['ghazwanUser' => $ghazwanUser1]);
+        //             return redirect('/petugas/dashboard');
+        //         }else{
+
+        //             notify()->error('Login Gagal');
+
+        //             return redirect('/login');
+        //         }
+        //     }
+
+        // }
 
 
     }
