@@ -21,18 +21,39 @@ Route::get('/', function () {
     return view('landing-page');
 });
 
-// Route::middlewareGroup()
+Route::Group(['middleware' => 'auth:masyarakat'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('ghazwanView.users.dashboard');
+});
+
+Route::Group(['middleware' => ['auth:petugas', 'CekLevel:admin, petugas']], function () {
+
+    Route::get('/logout', [LoginController::class, 'logout'])->name('ghazwanForm.logout');
+
+    Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
+
+    Route::get('/edit-user/{id}', [ManageUserController::class, 'editUser'])->name('ghazwanView.admin.edit.user');
+
+    Route::get('/manage-users', [ManageUserController::class, 'showUsers'])->name('ghazwanView.admin.manage.user');
+
+    Route::get('/manage-officers', [ManageUserController::class, 'showOfficers'])->name('ghazwanView.admin.manage.officer');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('ghazwanView.admin.dashboard');
+
+    Route::get('/register/user', [RegisterController::class, 'makeUserAccountView'])->name('ghazwanView.admin.user.add');
+
+    Route::post('/register/user/action', [RegisterController::class, 'makeUserAccount'])->name('ghazwanForm.admin.user.add');
+
+    Route::post('/register/user/edit/{id}', [RegisterController::class, 'editUserAccount'])->name('ghazwanForm.admin.user.edit');
+
+    Route::get('/register/officer', [RegisterController::class, 'makeOfficerAccountView'])->name('ghazwanView.admin.officer.add');
+
+    Route::post('/register/officer/action', [RegisterController::class, 'makeOfficerAccount'])->name('ghazwanForm.admin.officer.add');
+
+    Route::post('/register/officer/edit/{id}', [RegisterController::class, 'editOfficerAccount'])->name('ghazwanForm.admin.officer.edit');
+});
 
 
-Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
 
-Route::get('/edit-user/{id}', [ManageUserController::class, 'editUser'])->name('ghazwanView.admin.edit.user');
-
-Route::get('/manage-users', [ManageUserController::class, 'showUsers'])->name('ghazwanView.admin.manage.user');
-
-Route::get('/manage-officers', [ManageUserController::class, 'showOfficers'])->name('ghazwanView.admin.manage.officer');
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('ghazwanView.users.dashboard');
 
 Route::get('/login', [LoginController::class, 'index'])->name('ghazwanView.login');
 
@@ -42,15 +63,4 @@ Route::post('/registration', [RegisterController::class, 'create'])->name('ghazw
 
 Route::get('/register', [RegisterController::class, 'index'])->name('ghazwanView.register');
 
-Route::get('/register/user', [RegisterController::class, 'makeUserAccountView'])->name('ghazwanView.admin.user.add');
-
-Route::post('/register/user/action', [RegisterController::class, 'makeUserAccount'])->name('ghazwanForm.admin.user.add');
-
-Route::post('/register/user/edit/{id}', [RegisterController::class, 'editUserAccount'])->name('ghazwanForm.admin.user.edit');
-
-Route::get('/register/officer', [RegisterController::class, 'makeOfficerAccountView'])->name('ghazwanView.admin.officer.add');
-
-Route::post('/register/officer/action', [RegisterController::class, 'makeOfficerAccount'])->name('ghazwanForm.admin.officer.add');
-
-Route::post('/register/officer/edit/{id}', [RegisterController::class, 'editOfficerAccount'])->name('ghazwanForm.admin.officer.edit');
 

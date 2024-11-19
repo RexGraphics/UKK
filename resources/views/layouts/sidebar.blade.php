@@ -9,7 +9,7 @@
         @if (Auth::guard('petugas')->user()->level == 'admin')
         <ul class="space-y-2 px-4">
             <li>
-                <a href="{{-- route('admin.dashboard') --}}"
+                <a href="{{route('ghazwanView.admin.dashboard')}}"
                     class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Dashboard Admin</span>
                 </a>
@@ -84,5 +84,10 @@
             </li>
         </ul>
         @endif
+        <ul class="space-y-2 px-4">
+            <li>
+                <a href="/logout" class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200"><span class="ml-2">Keluar</span></a>
+            </li>
+        </ul>
     </div>
 </div>

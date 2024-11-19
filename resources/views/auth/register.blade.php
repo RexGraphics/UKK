@@ -12,6 +12,11 @@
 
 <body>
     <div class="font-sans text-gray-900 antialiased">
+        <div>
+            <a href="/">
+                <h2 class="font-bold text-3xl p-12 absolute">Kembali</h2>
+            </a>
+        </div>
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
             <div>
                 <a href="/">

@@ -8,7 +8,7 @@
     @notifyCss
 
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 scroll-smooth">
     <div class="w-screen h-screen overflow-x-hidden">
         <header class="bg-[#f84525] text-white w-[80%] ml-[20%] h-20 top-0 fixed z-40">
 
@@ -37,6 +37,7 @@
             dropdown.classList.toggle("hidden");
         }
     </script>
+    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 @yield('js')
 </body>
 </html>

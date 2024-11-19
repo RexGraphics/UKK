@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Charts\ReportDataChart;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    function index(){
-        if(session('level') == 'admin'){
+    function index(ReportDataChart $chart){
+        // if(session('level') == 'admin'){
 
-        }else if(session('level') == 'petugas'){
+        // }else if(session('level') == 'petugas'){
 
-        }else {
-            return view('user.dashboard');
-        }
-
-        // if(Auth::guard('petugas')->()){
-
+        // }else {
+        //     return view('user.dashboard');
         // }
+
+        $data = $chart->build();
+
+        if(Auth::guard('petugas')->user()->level == 'admin'){
+            return view('admin.dashboard', compact('data'));
+        }elseif(Auth::guard('petugas')->user()->level == 'petugas'){
+            return view('officer.dashboard');
+        }
+        // return view('user.dashboard');
     }
 }

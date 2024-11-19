@@ -17,7 +17,7 @@
                 <a href="#" class="hover:text-gray-300">Home</a>
                 <a href="#about" class="hover:text-gray-300">Tentang Kami</a>
                 <a href="#contact" class="hover:text-gray-300">Kontak</a>
-                <a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>
+                <a href="{{Auth::guard('masyarakat')->check() ? '/logout' : '/login'}}" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{{Auth::guard('masyarakat')->check() ? 'Keluar' : 'Masuk'}}</button></a>
 
             </nav>
         </div>
