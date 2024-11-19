@@ -22,10 +22,10 @@ class RegisterController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $ghazwanReq)
     {
         //
-        $request->validate([
+        $ghazwanReq->validate([
             'ghazwanNik' => ['required', Rule::unique('masyarakat', 'nik')],
             'ghazwanName' => 'required',
             'ghazwanUsername' => [
@@ -43,20 +43,20 @@ class RegisterController extends Controller
 
 
         $ghazwanMasyarakat = new Masyarakat();
-        $ghazwanMasyarakat->nik = $request->ghazwanNik;
-        $ghazwanMasyarakat->nama = $request->ghazwanName;
-        $ghazwanMasyarakat->username = $request->ghazwanUsername;
-        $ghazwanMasyarakat->password = Hash::make($request->ghazwanPassword);
-        $ghazwanMasyarakat->telp = $request->ghazwanPhone;
+        $ghazwanMasyarakat->nik = $ghazwanReq->ghazwanNik;
+        $ghazwanMasyarakat->nama = $ghazwanReq->ghazwanName;
+        $ghazwanMasyarakat->username = $ghazwanReq->ghazwanUsername;
+        $ghazwanMasyarakat->password = Hash::make($ghazwanReq->ghazwanPassword);
+        $ghazwanMasyarakat->telp = $ghazwanReq->ghazwanPhone;
         $ghazwanMasyarakat->save();
 
         notify()->success('silahkan masuk ke akun anda', 'Akun Berhasil Dibuat!');
         return redirect()->route('ghazwanView.login');
     }
-    public function makeUserAccount(Request $request)
+    public function makeUserAccount(Request $ghazwanReq)
     {
         //
-        $request->validate([
+        $ghazwanReq->validate([
             'ghazwanNik' => ['required', Rule::unique('masyarakat', 'nik')],
             'ghazwanName' => 'required',
             'ghazwanUsername' => [
@@ -74,11 +74,11 @@ class RegisterController extends Controller
 
 
         $ghazwanMasyarakat = new Masyarakat();
-        $ghazwanMasyarakat->nik = $request->ghazwanNik;
-        $ghazwanMasyarakat->nama = $request->ghazwanName;
-        $ghazwanMasyarakat->username = $request->ghazwanUsername;
-        $ghazwanMasyarakat->password = Hash::make($request->ghazwanPassword);
-        $ghazwanMasyarakat->telp = $request->ghazwanPhone;
+        $ghazwanMasyarakat->nik = $ghazwanReq->ghazwanNik;
+        $ghazwanMasyarakat->nama = $ghazwanReq->ghazwanName;
+        $ghazwanMasyarakat->username = $ghazwanReq->ghazwanUsername;
+        $ghazwanMasyarakat->password = Hash::make($ghazwanReq->ghazwanPassword);
+        $ghazwanMasyarakat->telp = $ghazwanReq->ghazwanPhone;
         $ghazwanMasyarakat->save();
 
         notify()->success('Akun Berhasil Dibuat!');
@@ -88,10 +88,10 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function makeOfficerAccount(Request $request)
+    public function makeOfficerAccount(Request $ghazwanReq)
     {
         //
-        $request->validate([
+        $ghazwanReq->validate([
             'ghazwanName' => 'required',
             'ghazwanUsername' => [
                 'required',
@@ -108,11 +108,11 @@ class RegisterController extends Controller
 
 
         $ghazwanPetugas = new Petugas();
-        $ghazwanPetugas->nama_petugas = $request->ghazwanName;
-        $ghazwanPetugas->username = $request->ghazwanUsername;
-        $ghazwanPetugas->password = Hash::make($request->ghazwanPassword);
-        $ghazwanPetugas->telp = $request->ghazwanPhone;
-        $ghazwanPetugas->level = $request->ghazwanLevel;
+        $ghazwanPetugas->nama_petugas = $ghazwanReq->ghazwanName;
+        $ghazwanPetugas->username = $ghazwanReq->ghazwanUsername;
+        $ghazwanPetugas->password = Hash::make($ghazwanReq->ghazwanPassword);
+        $ghazwanPetugas->telp = $ghazwanReq->ghazwanPhone;
+        $ghazwanPetugas->level = $ghazwanReq->ghazwanLevel;
         $ghazwanPetugas->save();
 
 
@@ -120,8 +120,8 @@ class RegisterController extends Controller
         return redirect(route('ghazwanView.admin.manage.officer'));
     }
 
-    public function editUserAccount(Request $request, $id) {
-        $request->validate([
+    public function editUserAccount(Request $ghazwanReq, $id) {
+        $ghazwanReq->validate([
             'ghazwanNik' => ['required', Rule::unique('masyarakat', 'nik')->ignore($id, 'id')],
             'ghazwanName' => 'required',
             'ghazwanUsername' => [
@@ -139,16 +139,16 @@ class RegisterController extends Controller
         $ghazwanUser = Masyarakat::find($id);
 
         $ghazwanPassword = $ghazwanUser->password;
-        if ($request->filled('ghazwanPassword')) {
-            $ghazwanPassword = Hash::make($request->ghazwanPassword);
+        if ($ghazwanReq->filled('ghazwanPassword')) {
+            $ghazwanPassword = Hash::make($ghazwanReq->ghazwanPassword);
         }
 
         $ghazwanUser->update([
-            'nik' => $request->ghazwanNik,
-            'nama' => $request->ghazwanName,
-            'username' => $request->ghazwanUsername,
+            'nik' => $ghazwanReq->ghazwanNik,
+            'nama' => $ghazwanReq->ghazwanName,
+            'username' => $ghazwanReq->ghazwanUsername,
             'password' => $ghazwanPassword,
-            'telp' => $request->ghazwanPhone
+            'telp' => $ghazwanReq->ghazwanPhone
         ]);
 
         notify()->success('Akun Berhasil Diperbarui!');
@@ -156,8 +156,8 @@ class RegisterController extends Controller
     }
 
 
-    public function editOfficerAccount(Request $request, $id) {
-        $request->validate([
+    public function editOfficerAccount(Request $ghazwanReq, $id) {
+        $ghazwanReq->validate([
             'ghazwanName' => 'required',
             'ghazwanUsername' => [
                 'required',
@@ -173,16 +173,16 @@ class RegisterController extends Controller
         $officer = Petugas::where('id_petugas', $id)->first();
 
         $ghazwanPassword = $officer->password;
-        if ($request->filled('ghazwanPassword')) {
-            $ghazwanPassword = Hash::make($request->ghazwanPassword);
+        if ($ghazwanReq->filled('ghazwanPassword')) {
+            $ghazwanPassword = Hash::make($ghazwanReq->ghazwanPassword);
         }
 
         $officer->update([
-            'nama_petugas' => $request->ghazwanName,
-            'username' => $request->ghazwanUsername,
+            'nama_petugas' => $ghazwanReq->ghazwanName,
+            'username' => $ghazwanReq->ghazwanUsername,
             'password' => $ghazwanPassword,
-            'telp' => $request->ghazwanPhone,
-            'level' => $request->ghazwanLevel
+            'telp' => $ghazwanReq->ghazwanPhone,
+            'level' => $ghazwanReq->ghazwanLevel
         ]);
 
         notify()->success('Akun Berhasil Diperbarui!');
@@ -208,7 +208,7 @@ class RegisterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $ghazwanReq, string $id)
     {
         //
     }

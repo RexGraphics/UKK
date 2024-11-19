@@ -16,18 +16,17 @@ use App\Http\Controllers\ManageUserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/logout', [LoginController::class, 'logout'])->name('ghazwanForm.logout');
 
 Route::get('/', function () {
     return view('landing-page');
 });
 
-Route::Group(['middleware' => 'auth:masyarakat'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('ghazwanView.users.dashboard');
+Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function () {
+
 });
+Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin, petugas']], function () {
 
-Route::Group(['middleware' => ['auth:petugas', 'CekLevel:admin, petugas']], function () {
-
-    Route::get('/logout', [LoginController::class, 'logout'])->name('ghazwanForm.logout');
 
     Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
 

@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengaduan Masyarakat</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @notifyCss
+    <style>
+        .notify {
+            position: fixed;
+            z-index: 9999;
+            top: 0px;
+            right: 0px;
+
+        }
+    </style>
 
 </head>
+
 <body class="bg-gray-100 scroll-smooth">
     <div class="w-screen h-screen overflow-x-hidden">
         <header class="bg-[#f84525] text-white w-[80%] ml-[20%] h-20 top-0 fixed z-40">
@@ -29,7 +40,7 @@
 
     </div>
 
-<x-notify::notify />
+    <x-notify::notify />
     @notifyJs
     <script>
         function toggleDropdown(dropdownId) {
@@ -38,6 +49,7 @@
         }
     </script>
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-@yield('js')
+    @yield('js')
 </body>
+
 </html>

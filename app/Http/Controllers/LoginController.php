@@ -22,7 +22,7 @@ class LoginController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $ghazwanReq)
     {
         //
 
@@ -32,7 +32,7 @@ class LoginController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $ghazwanReq)
     {
         //
     }
@@ -56,7 +56,7 @@ class LoginController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $ghazwanReq, string $id)
     {
         //
     }
@@ -69,16 +69,16 @@ class LoginController extends Controller
         //
     }
 
-    public function login(Request $request)
+    public function login(Request $ghazwanReq)
     {
-        $request->validate([
+        $ghazwanReq->validate([
             'ghazwanUsername' => 'required',
             'ghazwanPassword' => 'required',
         ]);
 
-        if(Auth::guard('petugas')->attempt(['username' => $request->ghazwanUsername, 'password' => $request->ghazwanPassword])){
+        if(Auth::guard('petugas')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
             return redirect('/dashboard');
-        }elseif(Auth::guard('masyarakat')->attempt(['username' => $request->ghazwanUsername, 'password' => $request->ghazwanPassword])){
+        }elseif(Auth::guard('masyarakat')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
             return redirect('/');
         }
 
@@ -92,9 +92,10 @@ class LoginController extends Controller
     public function logout() {
         if(Auth::guard('petugas')->check()){
             Auth::guard('petugas')->logout();
+            return redirect('/login');
         }elseif(Auth::guard('masyarakat')->check()){
             Auth::guard('masyarakat')->logout();
-            return redirect('/login');
+            return redirect('/');
         }
     }
 }
