@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: 'class',
+    important: true,
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -8,7 +9,10 @@ module.exports = {
         "./node_modules/flowbite/**/*.js"
       ],
     theme: {
-        extend: {},
+        extend: {
+            backgroundColor: { 'custom-orange': '#f84525',
+            },
+        },
     },
     plugins: [
         require('flowbite/plugin')

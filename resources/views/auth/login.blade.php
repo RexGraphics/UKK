@@ -8,6 +8,15 @@
     <title>Pengaduan Masyarakat</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @notifyCss
+    <style>
+        .notify {
+            position: fixed;
+            z-index: 9999;
+            top: 0px;
+            right: 0px;
+
+        }
+    </style>
 
 </head>
 
@@ -19,7 +28,7 @@
             </a>
             {{-- @dd(Auth::guard('masyarakat')->check()) --}}
 
-            
+
 
         </div>
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
@@ -78,8 +87,7 @@
                             </a>
                         </span>
                         <button
-                            class = 'ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'])
-                            }}>
+                            class ="ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none transition ease-in-out duration-150">
                             Masuk
                         </button>
 
@@ -90,6 +98,8 @@
         </div>
     </div>
 
+    <x-notify::notify />
+    @notifyJs
     <script>
         const ghazwanPasswordInput = document.getElementById('ghazwanPassword');
         const ghazwanShowPassword = document.getElementById('ghazwanShowPassword');
@@ -99,8 +109,6 @@
             ghazwanPasswordInput.setAttribute('type', type);
         });
     </script>
-    <x-notify::notify />
-    @notifyJs
 </body>
 
 </html>

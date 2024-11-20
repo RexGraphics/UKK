@@ -8,6 +8,15 @@
     <title>Pengaduan Masyarakat</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @notifyCss
+    <style>
+        .notify {
+            position: fixed;
+            z-index: 9999;
+            top: 0px;
+            right: 0px;
+
+        }
+    </style>
 </head>
 
 <body>

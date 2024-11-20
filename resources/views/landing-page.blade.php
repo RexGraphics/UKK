@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengaduan Masyarakat</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @notifyCss
+    <style>
+        .notify {
+            position: fixed;
+            z-index: 9999;
+            top: 0px;
+            right: 0px;
+
+        }
+    </style>
 
 </head>
 
@@ -85,7 +95,7 @@
         <section id="ghazwanForm" class="mt-12 p-6 bg-white shadow-lg rounded-lg">
             <h3 class="text-2xl font-semibold text-[#f84525] mb-4">Form Pengaduan</h3>
             <form action="{{ Auth::guard('masyarakat')->check() ? '/submit-complaint' : '/login-to-submit' }}"
-                method="POST">
+                method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- <div class="mb-4">
                     <label for="ghazwanName" class="block text-gray-700">Nama Lengkap</label>
@@ -133,7 +143,7 @@
                 <div class="mt-4">
                     <img id="ghazwanPreview" class="hidden max-w-xs">
                 </div>
-                <button type="submit" class="bg-[#f84525] text-white px-4 py-2 rounded-md hover:bg-[#e33e20]">Kirim
+                <button type="submit" class="bg-custom-orange text-white px-4 py-2 rounded-md hover:bg-[#e33e20]">Kirim
                     Pengaduan</button>
             </form>
         </section>
@@ -208,7 +218,8 @@
         }
     </script>
 
-
+    <x-notify::notify />
+    @notifyJs
 </body>
 
 </html>

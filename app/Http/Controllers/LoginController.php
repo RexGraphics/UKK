@@ -22,7 +22,6 @@ class LoginController extends Controller
     {
         //
         notify()->error('silahkan masuk terlebih dahulu untuk membuat laporan','Anda Belum Masuk!');
-
         return view('auth.login');
     }
 
