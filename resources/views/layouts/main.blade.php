@@ -9,10 +9,10 @@
     @notifyCss
     <style>
         .notify {
-            position: fixed;
-            z-index: 9999;
-            top: 0px;
-            right: 0px;
+            position: fixed !important;
+            z-index: 9999 !important;
+            top: 0px !important;
+            right: 0px !important;
 
         }
     </style>

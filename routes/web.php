@@ -26,12 +26,16 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function () {
     Route::post('/submit-complaint', [ComplaintController::class, 'submitComplaint'])->name('ghazwanForm.user.submit');
 });
-Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin, petugas']], function () {
+Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
 
 
     Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
 
     Route::get('/edit-user/{id}', [ManageUserController::class, 'editUser'])->name('ghazwanView.admin.edit.user');
+
+    Route::get('/complaint', [ComplaintController::class, 'showComplaint'])->name('ghazwanView.admin.manage.complaint');
+    
+    Route::get('/complaint/process', [ComplaintController::class, 'showProcess'])->name('ghazwanView.admin.process.complaint');
 
     Route::get('/manage-users', [ManageUserController::class, 'showUsers'])->name('ghazwanView.admin.manage.user');
 

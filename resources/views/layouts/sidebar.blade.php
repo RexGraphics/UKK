@@ -23,8 +23,8 @@
 
             {{-- ini teh list yang ada dropdownnya --}}
             <li class="relative">
-                <button onclick="toggleDropdown('manageUserDropdown')"
-                    class="flex items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
+                <button onclick="toggleDropdown('ghazwanUserDD')"
+                    class="flex {{request()->routeIs('ghazwanView.admin.manage.user') || request()->routeIs('ghazwanView.admin.manage.officer') ? 'bg-[#e33e20]' : ''}} items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Kelola Pengguna</span>
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -32,21 +32,48 @@
                     </svg>
                 </button>
 
-                <ul id="manageUserDropdown" class="hidden{{ request()->routeIs('ghazwanView.admin.manage.user') || request()->routeIs('ghazwanView.admin.manage.officer') ? 'hidden' : ''}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
+                <ul id="ghazwanUserDD" class="{{ request()->routeIs('ghazwanView.admin.manage.user') || request()->routeIs('ghazwanView.admin.manage.officer') ? '' : 'hidden'}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
                     <li>
                         <a href="{{route('ghazwanView.admin.manage.user')}}"
-                            class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                            class="flex {{request()->routeIs('ghazwanView.admin.manage.user') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
                             <span class="ml-2">Masyarakat</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{route('ghazwanView.admin.manage.officer')}}"
-                            class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                            class="flex {{request()->routeIs('ghazwanView.admin.manage.officer') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
                             <span class="ml-2">Petugas</span>
                         </a>
                     </li>
                 </ul>
 
+
+            </li>
+
+            <li class="relative">
+                <button onclick="toggleDropdown('ghazwanComplaintDD')"
+                    class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint') ? 'bg-[#e33e20]' : ''}} items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
+                    <span class="ml-2">Pengaduan</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <ul id="ghazwanComplaintDD" class="{{ request()->routeIs('ghazwanView.admin.manage.complaint') || request()->routeIs('ghazwanView.admin.complaint.is.done') ? '' : 'hidden'}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
+                    <li>
+                        <a href="{{route('ghazwanView.admin.manage.complaint')}}"
+                            class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
+                            <span class="ml-2">Baru</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('ghazwanView.admin.manage.officer')}}"
+                            class="flex {{request()->routeIs('ghazwanView.admin.manage.officer') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
+                            <span class="ml-2">Selesai</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             {{-- <li>
                 <a href="{{ route('ghazwanView.admin.user.add') }}"

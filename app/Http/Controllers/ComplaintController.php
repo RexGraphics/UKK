@@ -29,7 +29,7 @@ class ComplaintController extends Controller
         if ($ghazwanReq->file('ghazwanImage')) {
             $ghazwanFile = $ghazwanReq->file('ghazwanImage');
             $ghazwanExtension = $ghazwanFile->getClientOriginalExtension();
-            $ghazwanFilenameToStore = $ghazwanReq->bukti_laporan . time() . '.' . $ghazwanExtension;
+            $ghazwanFilenameToStore = Auth::guard('masyarakat')->user()->id . '_' . time() . '.' . $ghazwanExtension;
             $ghazwanPath = $ghazwanFile->storeAs('bukti_laporan', $ghazwanFilenameToStore, 'public');
             $ghazwanComplaint->foto = $ghazwanPath;
         }

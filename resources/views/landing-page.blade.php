@@ -9,10 +9,10 @@
     @notifyCss
     <style>
         .notify {
-            position: fixed;
-            z-index: 9999;
-            top: 0px;
-            right: 0px;
+            position: fixed !important;
+            z-index: 9999 !important;
+            top: 0px !important;
+            right: 0px !important;
 
         }
     </style>
@@ -76,7 +76,7 @@
                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin untuk
                             keluar?</h3>
                         <a href="/logout" class="text-center"><button data-modal-hide="popup-modal" type="button"
-                                class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-600 rounded-lg border border-gray-200 hover:bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
+                                class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none !bg-red-600 rounded-lg border border-gray-200 hover:!bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
                                 Ya
                             </button></a>
                         <button data-modal-hide="ghazwanPopup-modal" type="button"
@@ -114,18 +114,21 @@
                     class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-[#f84525]"></textarea>
                 </div>
 
-                <div class="max-w-full">
+                <div class="max-w-full pb-4">
                     <span class="block text-gray-700 text-xl p-4">Foto Bukti Laporan</span>
                     @error('ghazwanImage')
-                            <p class="text-red-600 pl-2 pt-1">
-                                {{$message}}
-                            </p>
-
+                        <p class="text-red-600 pl-2 pt-1">
+                            {{$message}}
+                        </p>
                     @enderror
                     <label
-                        class="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                        class="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none relative overflow-hidden"
                         id="ghazwanDropArea">
-                        <span class="flex items-center space-x-2">
+                        <!-- Preview Container -->
+                        <img id="ghazwanPreview" class="hidden absolute inset-0 w-full h-full object-contain">
+
+                        <!-- Upload Content -->
+                        <span class="flex items-center space-x-2" id="ghazwanUploadContent">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -139,11 +142,7 @@
                         <input type="file" name="ghazwanImage" id="ghazwanInputFile" class="hidden" accept="image/*">
                     </label>
                 </div>
-
-                <div class="mt-4">
-                    <img id="ghazwanPreview" class="hidden max-w-xs">
-                </div>
-                <button type="submit" class="bg-custom-orange text-white px-4 py-2 rounded-md hover:bg-[#e33e20]">Kirim
+                <button type="submit" class="!bg-[#f84525] text-white px-4 py-2 rounded-md hover:!bg-[#e33e20]">Kirim
                     Pengaduan</button>
             </form>
         </section>
@@ -155,67 +154,67 @@
 
     <script>
         const ghazwanDropArea = document.querySelector('#ghazwanDropArea');
-        const ghazwanInputFile = document.querySelector('#ghazwanInputFile');
-        const ghazwanImagePreview = document.querySelector('#ghazwanPreview');
+    const ghazwanInputFile = document.querySelector('#ghazwanInputFile');
+    const ghazwanImagePreview = document.querySelector('#ghazwanPreview');
+    const ghazwanUploadContent = document.querySelector('#ghazwanUploadContent');
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            ghazwanDropArea.addEventListener(eventName, ghazwanPreventDefaults, false);
-            document.body.addEventListener(eventName, ghazwanPreventDefaults, false);
-        });
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ghazwanEventName => {
+        ghazwanDropArea.addEventListener(ghazwanEventName, ghazwanPreventDefaults, false);
+        document.body.addEventListener(ghazwanEventName, ghazwanPreventDefaults, false);
+    });
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            ghazwanDropArea.addEventListener(eventName, ghazwanHighlight, false);
-        });
+    ['dragenter', 'dragover'].forEach(ghazwanEventName => {
+        ghazwanDropArea.addEventListener(ghazwanEventName, ghazwanHighlight, false);
+    });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            ghazwanDropArea.addEventListener(eventName, ghazwanUnhighlight, false);
-        });
+    ['dragleave', 'drop'].forEach(ghazwanEventName => {
+        ghazwanDropArea.addEventListener(ghazwanEventName, ghazwanUnhighlight, false);
+    });
 
+    ghazwanDropArea.addEventListener('drop', ghazwanHandleDrop, false);
 
-        ghazwanDropArea.addEventListener('drop', ghazwanHandleDrop, false);
+    ghazwanInputFile.addEventListener('change', function(ghazwanEvent) {
+        ghazwanHandleFiles(ghazwanEvent.target.files);
+    });
 
+    function ghazwanPreventDefaults(ghazwanEvent) {
+        ghazwanEvent.preventDefault();
+        ghazwanEvent.stopPropagation();
+    }
 
-        ghazwanInputFile.addEventListener('change', function(e) {
-            ghazwanHandleFiles(e.target.files);
-        });
+    function ghazwanHighlight(ghazwanEvent) {
+        ghazwanDropArea.classList.add('border-blue-500');
+    }
 
-        function ghazwanPreventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
+    function ghazwanUnhighlight(ghazwanEvent) {
+        ghazwanDropArea.classList.remove('border-blue-500');
+    }
+
+    function ghazwanHandleDrop(ghazwanEvent) {
+        const ghazwanDt = ghazwanEvent.dataTransfer;
+        const ghazwanFiles = ghazwanDt.files;
+        ghazwanHandleFiles(ghazwanFiles);
+    }
+
+    function ghazwanHandleFiles(ghazwanFiles) {
+        if (ghazwanFiles[0]?.type.startsWith('image/')) {
+            const ghazwanFile = ghazwanFiles[0];
+            ghazwanPreviewFile(ghazwanFile);
+            ghazwanInputFile.files = ghazwanFiles;
+        } else {
+            alert('Please upload an image file');
         }
+    }
 
-        function ghazwanHighlight(e) {
-            ghazwanDropArea.classList.add('border-blue-500');
+    function ghazwanPreviewFile(ghazwanFile) {
+        const ghazwanReader = new FileReader();
+        ghazwanReader.readAsDataURL(ghazwanFile);
+        ghazwanReader.onloadend = function() {
+            ghazwanImagePreview.src = ghazwanReader.result;
+            ghazwanImagePreview.classList.remove('hidden');
+            ghazwanUploadContent.classList.add('hidden'); // Hide the upload content when preview is shown
         }
-
-        function ghazwanUnhighlight(e) {
-            ghazwanDropArea.classList.remove('border-blue-500');
-        }
-
-        function ghazwanHandleDrop(e) {
-            const ghazwanDt = e.dataTransfer;
-            const ghazwanFiles = ghazwanDt.files;
-            ghazwanHandleFiles(ghazwanFiles);
-        }
-
-        function ghazwanHandleFiles(files) {
-            if (files[0]?.type.startsWith('image/')) {
-                const ghazwanFile = files[0];
-                ghazwanPreviewFile(ghazwanFile);
-                ghazwanInputFile.files = files; // Update the input file
-            } else {
-                alert('Please upload an image file');
-            }
-        }
-
-        function ghazwanPreviewFile(file) {
-            const ghazwanReader = new FileReader();
-            ghazwanReader.readAsDataURL(file);
-            ghazwanReader.onloadend = function() {
-                ghazwanImagePreview.src = ghazwanReader.result;
-                ghazwanImagePreview.classList.remove('hidden');
-            }
-        }
+    }
     </script>
 
     <x-notify::notify />
