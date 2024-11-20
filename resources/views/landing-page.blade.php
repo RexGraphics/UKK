@@ -19,7 +19,9 @@
                 <a href="#" class="hover:text-gray-300">Home</a>
                 <a href="#about" class="hover:text-gray-300">Tentang Kami</a>
                 <a href="#contact" class="hover:text-gray-300">Kontak</a>
-                {!! Auth::guard('masyarakat')->check() ? '<button data-modal-target="ghazwanPopup-modal" data-modal-toggle="ghazwanPopup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" type="button">Keluar</button>' : '<a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>' !!}
+                {!! Auth::guard('masyarakat')->check()
+                    ? '<button data-modal-target="ghazwanPopup-modal" data-modal-toggle="ghazwanPopup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" type="button">Keluar</button>'
+                    : '<a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>' !!}
                 {{-- <a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>
                 <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" type="button">Keluar</button> --}}
 
@@ -61,13 +63,14 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin untuk keluar?</h3>
-                            <a href="/logout" class="text-center"><button data-modal-hide="popup-modal" type="button"
-                            class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-600 rounded-lg border border-gray-200 hover:bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
-                            Ya
-                        </button></a>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin untuk
+                            keluar?</h3>
+                        <a href="/logout" class="text-center"><button data-modal-hide="popup-modal" type="button"
+                                class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-red-600 rounded-lg border border-gray-200 hover:bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
+                                Ya
+                            </button></a>
                         <button data-modal-hide="ghazwanPopup-modal" type="button"
-                                class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Tidak</button>
+                            class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Tidak</button>
                     </div>
                 </div>
             </div>
@@ -81,21 +84,54 @@
 
         <section id="ghazwanForm" class="mt-12 p-6 bg-white shadow-lg rounded-lg">
             <h3 class="text-2xl font-semibold text-[#f84525] mb-4">Form Pengaduan</h3>
-            <form action="/submit-complaint" method="POST">
+            <form action="{{ Auth::guard('masyarakat')->check() ? '/submit-complaint' : '/login-to-submit' }}"
+                method="POST">
                 @csrf
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label for="ghazwanName" class="block text-gray-700">Nama Lengkap</label>
                     <input type="text" id="ghazwanName" name="ghazwanName"
-                        class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-[#f84525]"
-                        required>
-                </div>
+                        class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-[#f84525]">
+                </div> --}}
                 <div class="mb-4">
-                    <label for="ghazwanComplaint" class="block text-gray-700">Pengaduan</label>
+                    <label for="ghazwanComplaint" class="block text-gray-700 text-xl p-4">Pengaduan</label>
+                    @error('ghazwanComplaint')
+                            <p class="text-red-600 pl-2 pt-1">
+                                {{$message}}
+                            </p>
+
+                    @enderror
                     <textarea id="ghazwanComplaint" name="ghazwanComplaint" rows="4"
-                        class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-[#f84525]" required></textarea>
+                    class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-[#f84525]"></textarea>
                 </div>
-                <div class="mb-4">
-                    <input type="file" name="ghazwanImage" id="ghazwanImage">
+
+                <div class="max-w-full">
+                    <span class="block text-gray-700 text-xl p-4">Foto Bukti Laporan</span>
+                    @error('ghazwanImage')
+                            <p class="text-red-600 pl-2 pt-1">
+                                {{$message}}
+                            </p>
+
+                    @enderror
+                    <label
+                        class="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                        id="ghazwanDropArea">
+                        <span class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <span class="font-medium text-gray-600">
+                                Geser Gambar Ke Area untuk Memasukan Gambar, atau
+                                <span class="text-blue-600 underline">Telusuri Berkas</span>
+                            </span>
+                        </span>
+                        <input type="file" name="ghazwanImage" id="ghazwanInputFile" class="hidden" accept="image/*">
+                    </label>
+                </div>
+
+                <div class="mt-4">
+                    <img id="ghazwanPreview" class="hidden max-w-xs">
                 </div>
                 <button type="submit" class="bg-[#f84525] text-white px-4 py-2 rounded-md hover:bg-[#e33e20]">Kirim
                     Pengaduan</button>
@@ -106,6 +142,73 @@
     <footer class="bg-[#f84525] text-white text-center py-4 mt-8">
         <p>&copy; 2024 LaporPak!. All rights reserved.</p>
     </footer>
+
+    <script>
+        const ghazwanDropArea = document.querySelector('#ghazwanDropArea');
+        const ghazwanInputFile = document.querySelector('#ghazwanInputFile');
+        const ghazwanImagePreview = document.querySelector('#ghazwanPreview');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            ghazwanDropArea.addEventListener(eventName, ghazwanPreventDefaults, false);
+            document.body.addEventListener(eventName, ghazwanPreventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            ghazwanDropArea.addEventListener(eventName, ghazwanHighlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            ghazwanDropArea.addEventListener(eventName, ghazwanUnhighlight, false);
+        });
+
+
+        ghazwanDropArea.addEventListener('drop', ghazwanHandleDrop, false);
+
+
+        ghazwanInputFile.addEventListener('change', function(e) {
+            ghazwanHandleFiles(e.target.files);
+        });
+
+        function ghazwanPreventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function ghazwanHighlight(e) {
+            ghazwanDropArea.classList.add('border-blue-500');
+        }
+
+        function ghazwanUnhighlight(e) {
+            ghazwanDropArea.classList.remove('border-blue-500');
+        }
+
+        function ghazwanHandleDrop(e) {
+            const ghazwanDt = e.dataTransfer;
+            const ghazwanFiles = ghazwanDt.files;
+            ghazwanHandleFiles(ghazwanFiles);
+        }
+
+        function ghazwanHandleFiles(files) {
+            if (files[0]?.type.startsWith('image/')) {
+                const ghazwanFile = files[0];
+                ghazwanPreviewFile(ghazwanFile);
+                ghazwanInputFile.files = files; // Update the input file
+            } else {
+                alert('Please upload an image file');
+            }
+        }
+
+        function ghazwanPreviewFile(file) {
+            const ghazwanReader = new FileReader();
+            ghazwanReader.readAsDataURL(file);
+            ghazwanReader.onloadend = function() {
+                ghazwanImagePreview.src = ghazwanReader.result;
+                ghazwanImagePreview.classList.remove('hidden');
+            }
+        }
+    </script>
+
+
 </body>
 
 </html>

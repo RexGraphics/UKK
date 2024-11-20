@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManageUserController;
 
@@ -23,7 +24,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function () {
-
+    Route::post('/submit-complaint', [ComplaintController::class, 'submitComplaint'])->name('ghazwanForm.user.submit');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin, petugas']], function () {
 
@@ -53,6 +54,8 @@ Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin, petugas']], func
 
 
 
+
+Route::post('/login-to-submit', [LoginController::class, 'index2'])->name('ghazwanView.login-submit');
 
 Route::get('/login', [LoginController::class, 'index'])->name('ghazwanView.login');
 

@@ -10,7 +10,7 @@
         <ul class="space-y-2 px-4">
             <li>
                 <a href="{{route('ghazwanView.admin.dashboard')}}"
-                    class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                    class="flex items-center p-2 rounded-md {{request()->routeIs('ghazwanView.admin.dashboard') ? 'bg-[#e33e20]' : ''}} hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Dashboard Admin</span>
                 </a>
             </li>
@@ -32,7 +32,7 @@
                     </svg>
                 </button>
 
-                <ul id="manageUserDropdown" class="hidden flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
+                <ul id="manageUserDropdown" class="hidden{{ request()->routeIs('ghazwanView.admin.manage.user') || request()->routeIs('ghazwanView.admin.manage.officer') ? 'hidden' : ''}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
                     <li>
                         <a href="{{route('ghazwanView.admin.manage.user')}}"
                             class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">

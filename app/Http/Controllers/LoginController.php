@@ -18,6 +18,13 @@ class LoginController extends Controller
         //
         return view('auth.login');
     }
+    public function index2()
+    {
+        //
+        notify()->error('silahkan masuk terlebih dahulu untuk membuat laporan','Anda Belum Masuk!');
+
+        return view('auth.login');
+    }
 
     /**
      * Show the form for creating a new resource.
