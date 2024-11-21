@@ -34,8 +34,10 @@ Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], funct
     Route::get('/edit-user/{id}', [ManageUserController::class, 'editUser'])->name('ghazwanView.admin.edit.user');
 
     Route::get('/complaint', [ComplaintController::class, 'showComplaint'])->name('ghazwanView.admin.manage.complaint');
-    
-    Route::get('/complaint/process', [ComplaintController::class, 'showProcess'])->name('ghazwanView.admin.process.complaint');
+
+    Route::get('/complaint-done', [ComplaintController::class, 'showComplaintDone'])->name('ghazwanView.admin.manage.complaint.done');
+
+    Route::post('/complaint/process', [ComplaintController::class, 'processComplaint'])->name('ghazwanView.admin.process.complaint');
 
     Route::get('/manage-users', [ManageUserController::class, 'showUsers'])->name('ghazwanView.admin.manage.user');
 

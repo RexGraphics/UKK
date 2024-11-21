@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('ghazwanView.admin.manage.officer')}}"
+                        <a href="{{route('ghazwanView.admin.manage.complaint.done')}}"
                             class="flex {{request()->routeIs('ghazwanView.admin.manage.officer') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
                             <span class="ml-2">Selesai</span>
                         </a>
