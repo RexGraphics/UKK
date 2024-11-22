@@ -53,37 +53,39 @@
             <div class="min-h-screen w-full flex flex-col mt-24 items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
 
                 <div id="ghazwanPopup-modal" tabindex="-1"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button type="button"
-                        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="ghazwanPopup-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <div class="p-4 md:p-5 text-center">
-                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin untuk
-                            keluar?</h3>
-                        <a href="/logout" class="text-center"><button data-modal-hide="popup-modal" type="button"
-                                class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none !bg-red-600 rounded-lg border border-gray-200 hover:!bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
-                                Ya
-                            </button></a>
-                        <button data-modal-hide="ghazwanPopup-modal" type="button"
-                            class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Tidak</button>
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <button type="button"
+                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="ghazwanPopup-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="p-4 md:p-5 text-center">
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin
+                                    untuk
+                                    keluar?</h3>
+                                <a href="/logout" class="text-center"><button data-modal-hide="popup-modal"
+                                        type="button"
+                                        class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none !bg-red-600 rounded-lg border border-gray-200 hover:!bg-red-800 focus:z-10 focus:ring-4 focus:ring-gray-100">
+                                        Ya
+                                    </button></a>
+                                <button data-modal-hide="ghazwanPopup-modal" type="button"
+                                    class="w-24 text-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">Tidak</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
                 <div class="w-[95%] flex items-center justify-end py-4">
                     <a href="/register/officer"><button
                             class ="ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
@@ -136,7 +138,8 @@
                                 {{-- @if ($value->status == 'selesai') --}}
                                 @if (!in_array($value->id_pengaduan, $ghazwanDisplayedIds))
                                     @php $ghazwanDisplayedIds[] = $value->id_pengaduan; @endphp
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                        data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
                                         data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}">
                                         <td scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
@@ -150,7 +153,8 @@
                                             {{ $value->isi_laporan }}
                                         </td>
                                         <td class="px-6 py-4 flex items-center justify-center">
-                                            <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan" style="height: 48px; display: flex; position: center; align-items: center;" >
+                                            <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan"
+                                                style="height: 48px; display: flex; position: center; align-items: center;">
 
                                         </td>
                                         <td class="px-6 py-4 capitalize">
@@ -158,11 +162,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <a href="" onclick="event.preventDefault()"
-                                            @if ($value->status == 0)
-                                            data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
-                                            data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}"
-                                            @endif
-                                            class="font-medium {{$value->status == 0 ? 'text-blue-600' : 'text-gray-600'}} dark:text-blue-500 hover:underline text-center">Edit</a>
+                                                @if ($value->status) data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
+                                            data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}" @endif
+                                                class="font-medium {{ $value->status == 0 ? 'text-blue-600' : 'text-gray-600' }} dark:text-blue-500 hover:underline text-center">Edit</a>
                                         </td>
                                     </tr>
                                     <div id="ghazwanDetailModal{{ $value->id_pengaduan }}" tabindex="-1"
@@ -170,7 +172,8 @@
                                         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                         <div class="relative w-full max-w-5xl max-h-full">
                                             <div class="relative bg-white rounded-lg shadow">
-                                                <form action="edit-complaint/{{ $value->id_pengaduan }}" method="post">
+                                                <form action="edit-complaint/{{ $value->id_pengaduan }}"
+                                                    method="post">
                                                     @csrf
                                                     <!-- Modal body -->
                                                     <div class="p-6 space-y-6">
@@ -191,36 +194,48 @@
 
                                                             <!-- Middle - Details -->
                                                             <div class="w-1/2 space-y-4">
-                                                                <div class="grid grid-cols-2 gap-4">
+                                                                <form action="update-complaint" method="post">
+                                                                    @csrf
+                                                                    <div class="grid grid-cols-2 gap-4">
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">ID
+                                                                                Pengaduan:
+                                                                            </p>
+                                                                            <p class="text-sm text-gray-500">
+                                                                                {{ $value->id_pengaduan }}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">Tanggal
+                                                                                Pengaduan:
+                                                                            </p>
+                                                                            <p class="text-sm text-gray-500">
+                                                                                {{ $value->tgl_pengaduan }}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">NIK:</p>
+                                                                            <p class="text-sm text-gray-500">
+                                                                                {{ $value->nik }}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">Status:
+                                                                            </p>
+                                                                            <p
+                                                                                class="text-sm text-gray-500 capitalize">
+                                                                                {{ $value->status == 0 ? 'Baru' : $value->status }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                     <div>
-                                                                        <p class="text-base font-semibold">ID Pengaduan:
+                                                                        <p class="text-base font-semibold">Isi Laporan:
                                                                         </p>
-                                                                        <p class="text-sm text-gray-500">
-                                                                            {{ $value->id_pengaduan }}</p>
+                                                                        <input type="text" name="ghazwanReport" class="text-sm text-gray-500" value="{{ $value->isi_laporan }}">
+                                                                            </input>
                                                                     </div>
-                                                                    <div>
-                                                                        <p class="text-base font-semibold">Tanggal
-                                                                            Pengaduan:
-                                                                        </p>
-                                                                        <p class="text-sm text-gray-500">
-                                                                            {{ $value->tgl_pengaduan }}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p class="text-base font-semibold">NIK:</p>
-                                                                        <p class="text-sm text-gray-500">
-                                                                            {{ $value->nik }}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p class="text-base font-semibold">Status:</p>
-                                                                        <p class="text-sm text-gray-500 capitalize">
-                                                                            {{ $value->status }}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <p class="text-base font-semibold">Isi Laporan:</p>
-                                                                    <p class="text-sm text-gray-500">
-                                                                        {{ $value->isi_laporan }}</p>
-                                                                </div>
+                                                                    <button
+                                                                        class ="ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                                                        Tambah
+                                                                    </button>
+                                                                </form>
                                                             </div>
 
                                                             <!-- Right side - Chat Area -->
@@ -229,14 +244,15 @@
                                                                 <div
                                                                     class="h-64 overflow-y-auto border border-gray-300 rounded-lg mb-2 p-2">
                                                                     <!-- Chat messages will be dynamically populated here -->
-                                                                    @foreach ($ghazwanDataMessage as $message)
-                                                                        @if ($value->id_pengaduan == $message->id_pengaduan)
+                                                                    @foreach ($ghazwanDataComplaint as $message)
+                                                                        @if ($message->id_pengaduan == $value->id_pengaduan && $message->tanggapan != null)
                                                                             <div class="mb-1">
                                                                                 <div
                                                                                     class="text-base text-gray-600 bg-gray-100 px-4 py-2 rounded-lg inline-block my-1">
                                                                                     <div
                                                                                         class="flex justify-between text-xs font-bold mb-2">
-                                                                                        <p></p>
+                                                                                        <p>{{ $message->nama_petugas }}
+                                                                                        </p>
                                                                                     </div>
                                                                                     <div
                                                                                         class="text-wrap w-full break-all">

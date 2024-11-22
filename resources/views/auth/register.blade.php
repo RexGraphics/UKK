@@ -80,7 +80,7 @@
                             placeholder='Nama Pengguna'
                             class="w-full rounded-md py-2.5 px-4 border text-sm outline-[#f84525]" />
                             @error('ghazwanUsername')
-                                                        <p class="text-red-600 text-xs pl-2 pt-1">
+                            <p class="text-red-600 text-xs pl-2 pt-1">
 
                                 {{$message}}
                             </p>

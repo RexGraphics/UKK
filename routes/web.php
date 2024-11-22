@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
@@ -29,7 +30,11 @@ Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function ()
     Route::get('/edit-complaint/{id}', [ComplaintController::class, 'editComplaint'])->name('ghazwanForm.edit.complaint');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
+    Route::post('/print', [ReportController::class, 'printData'])->name('ghazwanData.print');
 
+    Route::post('/report-filter', [ReportController::class, 'filterData'])->name('ghazwanData.filter');
+
+    Route::get('/report', [ReportController::class, 'showReport'])->name('ghazwanView.admin.report');
 
     Route::get('/edit-officer/{id}', [ManageUserController::class, 'editOfficer'])->name('ghazwanView.admin.edit.officer');
 

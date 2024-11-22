@@ -30,7 +30,7 @@
                                 </div>
                             </th>
                             <th class="px-6 py-3">
-                                <div class="flex items-center">
+                                <div class="flex items-center justify-center">
                                     Foto Bukti
                                     <a href="#"></a>
                                 </div>
@@ -69,9 +69,8 @@
                                     <td class="px-6 py-4">
                                         {{ $value->isi_laporan }}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan" width="30px"
-                                            height="30px">
+                                    <td class="px-6 py-4 flex items-center justify-center">
+                                        <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan" style="height: 48px; display: flex; position: center; align-items: center;">
 
                                     </td>
                                     <td class="px-6 py-4 capitalize">
@@ -150,7 +149,7 @@
                                                                                 class="text-base text-gray-600 bg-gray-100 px-4 py-2 rounded-lg inline-block my-1">
                                                                                 <div
                                                                                     class="flex justify-between text-xs font-bold mb-2">
-                                                                                    <p>Nama Petugas</p>
+                                                                                    <p>{{$message->nama_petugas}}</p>
                                                                                 </div>
                                                                                 <div class="text-wrap w-full break-all">
                                                                                     {{ $message->tanggapan }}

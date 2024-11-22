@@ -94,9 +94,15 @@
             @if (Auth::guard('petugas')->user()->level == 'admin')
 
             <li>
-                <a href="{{-- route('admin.reports') --}}"
-                    class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                <a href="/report"
+                    class="flex {{request()->routeIs('ghazwanView.admin.report') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Laporan</span>
+                </a>
+            </li>
+            <li>
+                <a href="/activity"
+                    class="flex {{request()->routeIs('ghazwanView.admin.activity') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                    <span class="ml-2">Activity</span>
                 </a>
             </li>
             @endif

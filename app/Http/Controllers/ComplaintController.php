@@ -41,19 +41,27 @@ class ComplaintController extends Controller
         return redirect()->back();
     }
 
-    public function showComplaint(){
+    public function showComplaint()
+    {
         $ghazwanDataComplaint = Pengaduan::all();
 
         return view('admin.complaint', compact('ghazwanDataComplaint'));
     }
 
-    public function showComplaintDone(){
-        $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->distinct('pengaduan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan')->get();
+    public function showComplaintDone()
+    {
+        // $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->distinct('pengaduan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan')->get();
+        $ghazwanDataComplaint = Pengaduan::join('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
+            ->join('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas')
+            ->distinct('pengaduan.id_pengaduan')
+            ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'petugas.nama_petugas as nama_petugas')
+            ->get();
 
         return view('admin.complaint-done', compact('ghazwanDataComplaint'));
     }
 
-    public function processComplaint(Request $ghazwanReq){
+    public function processComplaint(Request $ghazwanReq)
+    {
         $ghazwanDataComplaint = new Tanggapan();
 
         $ghazwanDataComplaint->id_pengaduan = $ghazwanReq->ghazwanId;
@@ -69,12 +77,11 @@ class ComplaintController extends Controller
         return redirect()->back();
     }
 
-    public function showUserComplaint() {
-        // $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan', 'pengaduan.status as status')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
-        $ghazwanDataMessage = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->with('petugas')->select('pengaduan.*','tanggapan.tanggapan as tanggapan', 'pengaduan.status as status')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
-        $ghazwanDataComplaint = Pengaduan::with('tanggapan')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
-        $ghazwanOfficerName = new Petugas();
-        return view('my-complaint', compact('ghazwanDataComplaint','ghazwanDataMessage'));
+    public function showUserComplaint()
+    {
+        $ghazwanDataComplaint = Pengaduan::leftJoin('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan') ->leftJoin('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas') ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'pengaduan.status as status', 'petugas.nama_petugas as nama_petugas') ->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik) ->get();
+        // $ghazwanDataComplaint = Pengaduan::join('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan') ->join('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas') ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'pengaduan.status as status', 'petugas.nama_petugas as nama_petugas') ->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik) ->get();
+        // dd($ghazwanDataComplaint);
+        return view('my-complaint', compact('ghazwanDataComplaint'));
     }
-
 }

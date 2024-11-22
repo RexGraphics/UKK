@@ -30,7 +30,7 @@
                                 </div>
                             </th>
                             <th class="px-6 py-3">
-                                <div class="flex items-center">
+                                <div class="flex items-center justify-center">
                                     Foto Bukti
                                     <a href="#"></a>
                                 </div>
@@ -67,9 +67,8 @@
                                 <td class="px-6 py-4">
                                     {{ $value->isi_laporan }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan" width="30px"
-                                        height="30px">
+                                <td class="px-6 py-4 flex items-center justify-center">
+                                    <img src="{{ asset('storage/' . $value->foto) }}" alt="foto laporan" style="height: 48px; display: flex; position: center; align-items: center;">
 
                                 </td>
                                 <td class="px-6 py-4 capitalize">
