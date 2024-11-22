@@ -25,6 +25,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function () {
     Route::post('/submit-complaint', [ComplaintController::class, 'submitComplaint'])->name('ghazwanForm.user.submit');
+    Route::get('/my-complaint', [ComplaintController::class, 'showUserComplaint'])->name('ghazwanForm.user.show.complaint');
+    Route::get('/edit-complaint/{id}', [ComplaintController::class, 'editComplaint'])->name('ghazwanForm.edit.complaint');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
 

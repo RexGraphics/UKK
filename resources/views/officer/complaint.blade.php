@@ -47,9 +47,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                        $ghazwanIndex = 1;
-                        @endphp
                         @foreach ($ghazwanDataComplaint as $value)
                         @if ($value->status == 0 || $value->status == 'proses')
 
@@ -58,7 +55,7 @@
                                 data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}">
                                 <td scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
-                                    {{ $ghazwanIndex }}
+                                    {{ $loop->iteration }}
                                 </td>
                                 <td scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -72,7 +69,7 @@
                                         height="30px">
 
                                 </td>
-                                <td class="px-6 py-4 capitalize">
+                                <td class="px-6 py-4">
                                     {{ $value->status == '0' ? 'Baru' : $value->status }}
                                 </td>
                                 <td class="px-6 py-4">
@@ -139,7 +136,7 @@
                                                             </div>
                                                             <div>
                                                                 <p class="text-base font-semibold">Status:</p>
-                                                                <p class="text-sm text-gray-500 capitalize">{{ $value->status == '0' ? 'Baru' : $value->status }}</p>
+                                                                <p class="text-sm text-gray-500">{{ $value->status }}</p>
                                                             </div>
                                                         </div>
                                                         <div>
@@ -208,10 +205,8 @@
                                     </div>
                                 </div>
                             </div>
-                        @php
-                        $ghazwanIndex++;
-                        @endphp
                         @endif
+
                         @endforeach
                     </tbody>
                 </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Pengaduan;
 use App\Models\Tanggapan;
+use App\Models\Petugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,7 +48,7 @@ class ComplaintController extends Controller
     }
 
     public function showComplaintDone(){
-        $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan')->get();
+        $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->distinct('pengaduan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan')->get();
 
         return view('admin.complaint-done', compact('ghazwanDataComplaint'));
     }
@@ -67,4 +68,13 @@ class ComplaintController extends Controller
 
         return redirect()->back();
     }
+
+    public function showUserComplaint() {
+        // $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan', 'pengaduan.status as status')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
+        $ghazwanDataMessage = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->with('petugas')->select('pengaduan.*','tanggapan.tanggapan as tanggapan', 'pengaduan.status as status')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
+        $ghazwanDataComplaint = Pengaduan::with('tanggapan')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
+        $ghazwanOfficerName = new Petugas();
+        return view('my-complaint', compact('ghazwanDataComplaint','ghazwanDataMessage'));
+    }
+
 }

@@ -27,4 +27,8 @@ class Petugas extends Authenticatable
 
     protected $primaryKey = 'id_petugas';
 
+    public function pengaduan()
+    {
+        return $this->hasMany(Pengaduan::class, 'id_petugas');
+    }
 }

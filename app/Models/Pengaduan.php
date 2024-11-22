@@ -19,4 +19,14 @@ class Pengaduan extends Model
         'foto',
         'status',
     ];
+
+    public function tanggapan()
+    {
+        return $this->hasMany(Tanggapan::class, 'id_pengaduan');
+    }
+
+    public function petugas()
+    {
+        return $this->belongsTo(Petugas::class, 'id_petugas');
+    }
 }

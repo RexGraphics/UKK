@@ -83,16 +83,15 @@ class LoginController extends Controller
         ]);
 
         if(Auth::guard('petugas')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
+            activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah melakukan login');
             return redirect('/dashboard');
         }elseif(Auth::guard('masyarakat')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
+            activity()->causedBy(Auth::guard('masyarakat')->user())->log(Auth::guard('masyarakat')->user()->nama_petugas . ' dengan hak akses sebagai user telah melakukan login');
             return redirect('/');
         }
 
             notify()->error('akun belum terdaftar','Login Gagal!');
             return redirect()->back();
-
-
-
     }
 
     public function logout() {

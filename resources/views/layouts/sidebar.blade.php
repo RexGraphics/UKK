@@ -6,12 +6,13 @@
         <p class="text-4xl text-center pt-4">LaporPak!</p>
     </div>
     <div class="pt-4">
-        @if (Auth::guard('petugas')->user()->level == 'admin')
+        {{-- @dd(Auth::guard('masyarakat')->check()) --}}
+        @if (!Auth::guard('masyarakat')->check())
         <ul class="space-y-2 px-4">
             <li>
                 <a href="{{route('ghazwanView.admin.dashboard')}}"
                     class="flex items-center p-2 rounded-md {{request()->routeIs('ghazwanView.admin.dashboard') ? 'bg-[#e33e20]' : ''}} hover:bg-[#e33e20] transition duration-200">
-                    <span class="ml-2">Dashboard Admin</span>
+                    <span class="ml-2">Dashboard</span>
                 </a>
             </li>
             {{-- <li>
@@ -22,6 +23,8 @@
             </li> --}}
 
             {{-- ini teh list yang ada dropdownnya --}}
+            @if (Auth::guard('petugas')->user()->level == 'admin')
+
             <li class="relative">
                 <button onclick="toggleDropdown('ghazwanUserDD')"
                     class="flex {{request()->routeIs('ghazwanView.admin.manage.user') || request()->routeIs('ghazwanView.admin.manage.officer') ? 'bg-[#e33e20]' : ''}} items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
@@ -49,10 +52,11 @@
 
 
             </li>
+            @endif
 
             <li class="relative">
                 <button onclick="toggleDropdown('ghazwanComplaintDD')"
-                    class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint') ? 'bg-[#e33e20]' : ''}} items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
+                    class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint') || request()->routeIs('ghazwanView.admin.manage.complaint.done') ? 'bg-[#e33e20]' : ''}} items-center p-2 w-full rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Pengaduan</span>
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +64,7 @@
                     </svg>
                 </button>
 
-                <ul id="ghazwanComplaintDD" class="{{ request()->routeIs('ghazwanView.admin.manage.complaint') || request()->routeIs('ghazwanView.admin.complaint.is.done') ? '' : 'hidden'}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
+                <ul id="ghazwanComplaintDD" class="{{ request()->routeIs('ghazwanView.admin.manage.complaint') || request()->routeIs('ghazwanView.admin.manage.complaint.done') ? '' : 'hidden'}} flex-col space-y-1 pl-4 mt-1 border-l-2 border-[#e33e20]">
                     <li>
                         <a href="{{route('ghazwanView.admin.manage.complaint')}}"
                             class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
@@ -69,7 +73,7 @@
                     </li>
                     <li>
                         <a href="{{route('ghazwanView.admin.manage.complaint.done')}}"
-                            class="flex {{request()->routeIs('ghazwanView.admin.manage.officer') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
+                            class="flex {{request()->routeIs('ghazwanView.admin.manage.complaint.done') ? 'text-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] hover:text-white transition duration-200">
                             <span class="ml-2">Selesai</span>
                         </a>
                     </li>
@@ -87,6 +91,7 @@
                     <span class="ml-2">Tambah Akun Petugas</span>
                 </a>
             </li> --}}
+            @if (Auth::guard('petugas')->user()->level == 'admin')
 
             <li>
                 <a href="{{-- route('admin.reports') --}}"
@@ -94,22 +99,9 @@
                     <span class="ml-2">Laporan</span>
                 </a>
             </li>
+            @endif
         </ul>
-        @elseif(Auth::guard('petugas')->user()->level === 'petugas')
-        <ul class="space-y-2 px-4">
-            <li>
-                <a href="{{-- route('petugas.dashboard') --}}"
-                    class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
-                    <span class="ml-2">Dashboard Petugas</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{-- route('petugas.reports') --}}"
-                    class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
-                    <span class="ml-2">Lihat Pengaduan</span>
-                </a>
-            </li>
-        </ul>
+
         @endif
         <ul class="space-y-2 px-4">
             <li>

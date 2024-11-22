@@ -22,7 +22,7 @@ class DashboardController extends Controller
         if(Auth::guard('petugas')->user()->level == 'admin'){
             return view('admin.dashboard', compact('data'));
         }elseif(Auth::guard('petugas')->user()->level == 'petugas'){
-            return view('officer.dashboard');
+            return view('admin.dashboard', compact('data'));
         }
         // return view('user.dashboard');
     }

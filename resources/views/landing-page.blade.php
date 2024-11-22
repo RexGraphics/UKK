@@ -19,22 +19,30 @@
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 scroll-smooth">
 
     <!-- Header -->
     <header class="bg-[#f84525] text-white">
         <div class="container mx-auto flex justify-between items-center p-4">
             <h1 class="text-2xl font-bold">Pengaduan Masyarakat</h1>
-            <nav class="space-x-4">
-                <a href="#" class="hover:text-gray-300">Home</a>
+            <nav class="space-x-8">
+                <a href="/" class="hover:text-gray-300">Home</a>
+                @if (Auth::guard('masyarakat')->check())
+                <a href="/my-complaint" class="hover:text-gray-300">Laporan Anda</a>
+                @endif
                 <a href="#about" class="hover:text-gray-300">Tentang Kami</a>
                 <a href="#contact" class="hover:text-gray-300">Kontak</a>
+
+
+            </nav>
+
+            <nav class="space-x-4 inline-flex items-center justify-center">
+                <p class="text-nowrap text-xl">{{ Auth::guard('masyarakat')->check() ? 'Anda Login Sebagai ' . Auth::guard('masyarakat')->user()->nama : ''}}</p>
                 {!! Auth::guard('masyarakat')->check()
-                    ? '<button data-modal-target="ghazwanPopup-modal" data-modal-toggle="ghazwanPopup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" type="button">Keluar</button>'
-                    : '<a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>' !!}
+                    ? '<button data-modal-target="ghazwanPopup-modal" data-modal-toggle="ghazwanPopup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 " type="button">Keluar</button>'
+                    : '<a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center">Masuk</button></a>' !!}
                 {{-- <a href="/login" class="hover:text-gray-300"><button type="button" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button></a>
                 <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" type="button">Keluar</button> --}}
-
 
             </nav>
         </div>
@@ -42,12 +50,16 @@
 
     <main class="container mx-auto my-8 p-4">
         <section class="bg-white shadow-lg rounded-lg p-6 text-center relative">
-            <img src="{{ asset('assets/images/') }}" alt="Pengaduan Masyarakat" class="w-full mx-auto mb-4 rounded-lg">
+            <div class="relative w-full h-64 overflow-hidden"> <!-- Sesuaikan height sesuai kebutuhan -->
+                <img src="{{ asset('assets/images/bg1.jpeg') }}" alt="Background 1" class="gambar absolute w-full h-full object-cover brightness-[0.25] transition-opacity duration-1000 opacity-100">
+                <img src="{{ asset('assets/images/bg2.jpg') }}" alt="Background 2" class="gambar absolute w-full h-full object-cover brightness-[0.25] transition-opacity duration-1000 opacity-0">
+                <img src="{{ asset('assets/images/bg3.jpg') }}" alt="Background 3" class="gambar absolute w-full h-full object-cover brightness-[0.25] transition-opacity duration-1000 opacity-0">
+            </div>
             <div class="inlineflex absolute text-nowrap top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                 <h2 class="text-3xl font-bold text-[#f84525] mb-4">Aspirasi Anda, Prioritas Kami</h2>
-                <p class="text-gray-700 mb-6">Laporkan berbagai masalah yang Anda hadapi di lingkungan sekitar dengan
+                <p class="text-white mb-6">Laporkan berbagai masalah yang Anda hadapi di lingkungan sekitar dengan
                     cepat dan mudah. Kami siap membantu menyelesaikan pengaduan Anda.</p>
-                <a href="#form" class="bg-[#f84525] text-white px-6 py-2 rounded-md hover:bg-[#e33e20]">Laporkan
+                <a href="#ghazwanForm" class="bg-[#f84525] text-white px-6 py-2 rounded-md hover:bg-[#e33e20]">Laporkan
                     Sekarang</a>
 
             </div>
@@ -215,6 +227,21 @@
             ghazwanUploadContent.classList.add('hidden'); // Hide the upload content when preview is shown
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.relative .gambar');
+    let currentIndex = 0;
+
+    function fadeNext() {
+        images[currentIndex].style.opacity = '0';
+
+        currentIndex = (currentIndex + 1) % images.length;
+
+        images[currentIndex].style.opacity = '1';
+    }
+
+    setInterval(fadeNext, 5000);
+});
     </script>
 
     <x-notify::notify />

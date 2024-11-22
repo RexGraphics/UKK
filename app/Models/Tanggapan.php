@@ -18,4 +18,9 @@ class Tanggapan extends Model
         'tanggapan',
         'id_petugas'
     ];
+
+    public function pengaduan()
+    {
+        return $this->belongsTo(Pengaduan::class, 'id_pengaduan');
+    }
 }
