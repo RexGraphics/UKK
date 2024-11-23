@@ -165,7 +165,7 @@
     </footer>
 
     <script>
-        const ghazwanDropArea = document.querySelector('#ghazwanDropArea');
+    const ghazwanDropArea = document.querySelector('#ghazwanDropArea');
     const ghazwanInputFile = document.querySelector('#ghazwanInputFile');
     const ghazwanImagePreview = document.querySelector('#ghazwanPreview');
     const ghazwanUploadContent = document.querySelector('#ghazwanUploadContent');

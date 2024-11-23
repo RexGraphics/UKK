@@ -30,7 +30,7 @@
 
         </nav>
 
-        <main class="container w-[80%] h-full ml-[20%] mt-[2rem] overflow-hidden">
+        <main class="container flex-grow min-h-full w-[80%] ml-[20%] mt-[2rem] overflow-hidden">
             @yield('content')
         </main>
 

@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function ()
     Route::get('/edit-complaint/{id}', [ComplaintController::class, 'editComplaint'])->name('ghazwanForm.edit.complaint');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
-    Route::post('/print', [ReportController::class, 'printData'])->name('ghazwanData.print');
+    Route::get('/print', [ReportController::class, 'printData'])->name('ghazwanPrint.report');
 
     Route::post('/report-filter', [ReportController::class, 'filterData'])->name('ghazwanData.filter');
 

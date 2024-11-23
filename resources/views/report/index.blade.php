@@ -65,15 +65,7 @@
             </tr>
         </thead>
         <tbody>
-            @dd($statuses)
-            @foreach ($statuses as $item)
-                <tr>
-                    {{-- <td>{{ $item->tgl_pengaduan }}</td> --}}
-                    {{-- <td>{{ $item-> }}</td> --}}
-                    <td>{{ $item->proses }}</td>
-                    <td>{{ $item->selesai }}</td>
-                </tr>
-            @endforeach
+
         </tbody>
     </table>
 
@@ -83,12 +75,47 @@
 
     <br>
 
-    <div style="float: right; text-align: right;">
-        <p>Cimahi, {{ date('d F Y') }}</p>
-        <p>Tim Pengaduan Masyarakat Kota Cimahi</p>
-        <br>
-        <br>
-        <p>_</p>
+    <div class="w-[95%] relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Tanggal Pengaduan
+                            <a href="#"></a>
+                        </div>
+                    </th>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Status
+                            <a href="#"></a>
+                        </div>
+                    </th>
+                    <th class="px-6 py-3 flex text-center">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ghazwanReport as $value)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
+                        data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}">
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ $value->tgl_pengaduan }}
+                        </td>
+                        <td class="px-6 py-4 capitalize">
+                            {{ $value->status === null ? 'Semua' : ($value->status == 0 ? 'Baru' : $value->status) }}
+
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="edit-officer/{{ $value->id_pengaduan }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Edit</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
 </body>

@@ -28,8 +28,8 @@
             <nav class="space-x-8">
                 <a href="/" class="hover:text-gray-300">Home</a>
                 <a href="/my-complaint" class="hover:text-gray-300">Laporan Anda</a>
-                <a href="#about" class="hover:text-gray-300">Tentang Kami</a>
-                <a href="#contact" class="hover:text-gray-300">Kontak</a>
+                <a href="/#about" class="hover:text-gray-300">Tentang Kami</a>
+                <a href="/#contact" class="hover:text-gray-300">Kontak</a>
 
 
             </nav>
@@ -87,8 +87,8 @@
                     </div>
                 </div>
                 <div class="w-[95%] flex items-center justify-end py-4">
-                    <a href="/register/officer"><button
-                            class ="ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <a href="/#ghazwanForm"><button
+                            class ="inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             Tambah
                         </button></a>
 
@@ -225,16 +225,33 @@
                                                                             </p>
                                                                         </div>
                                                                     </div>
+                                                                    @if($value->status == '0')
+
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">Isi Laporan:
+                                                                            </p>
+                                                                            <input type="text" id="ghazwanReport" rows="4"
+                                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                            placeholder="Tuliskan Laporan Anda" value="{{ $value->isi_laporan }}"></input>
+                                                                        </div>
+
+                                                                        <div>
+                                                                            <p class="text-base font-semibold">Bukti Laporan :
+                                                                            </p>
+                                                                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none file:bg-blue-500 file:text-white file:rounded file:border-none file:py-2 file:px-4" id="ghazwanGambar" type="file">
+                                                                        </div>
+
+                                                                        <button
+                                                                        class ="inline-flex items-center px-4 ml-80 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                                                        Ubah
+                                                                    </button>
+                                                                    @else
                                                                     <div>
                                                                         <p class="text-base font-semibold">Isi Laporan:
-                                                                        </p>
-                                                                        <input type="text" name="ghazwanReport" class="text-sm text-gray-500" value="{{ $value->isi_laporan }}">
-                                                                            </input>
+                                                                        <P class="text-sm text-gray-500">{{ $value->isi_laporan }}
+                                                                        </P>
                                                                     </div>
-                                                                    <button
-                                                                        class ="ms-4 inline-flex items-center px-4 py-2 bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                                                        Tambah
-                                                                    </button>
+                                                                    @endif
                                                                 </form>
                                                             </div>
 

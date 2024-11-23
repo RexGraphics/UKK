@@ -62,6 +62,13 @@ class ComplaintController extends Controller
 
     public function processComplaint(Request $ghazwanReq)
     {
+
+
+        if($ghazwanReq->ghazwanTanggapan == ''){
+            notify()->error('Tanggapan Tidak Boleh Kosong!', 'Gagal');
+            return redirect()->back();
+        }
+
         $ghazwanDataComplaint = new Tanggapan();
 
         $ghazwanDataComplaint->id_pengaduan = $ghazwanReq->ghazwanId;
