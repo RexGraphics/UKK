@@ -86,7 +86,6 @@ class LoginController extends Controller
             activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah melakukan login');
             return redirect('/dashboard');
         }elseif(Auth::guard('masyarakat')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
-            activity()->causedBy(Auth::guard('masyarakat')->user())->log(Auth::guard('masyarakat')->user()->nama_petugas . ' dengan hak akses sebagai user telah melakukan login');
             return redirect('/');
         }
 
@@ -96,6 +95,7 @@ class LoginController extends Controller
 
     public function logout() {
         if(Auth::guard('petugas')->check()){
+            activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah melakukan logout');
             Auth::guard('petugas')->logout();
             return redirect('/login');
         }elseif(Auth::guard('masyarakat')->check()){

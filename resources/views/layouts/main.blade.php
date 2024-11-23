@@ -21,9 +21,12 @@
 
 <body class="bg-gray-100 scroll-smooth">
     <div class="w-screen h-screen overflow-x-hidden">
-        <header class="bg-[#f84525] text-white w-[80%] ml-[20%] h-20 top-0 fixed z-40">
-
+        <header class="bg-[#f84525] text-white w-[80%] ml-[20%] h-20 top-0 fixed z-40 flex items-center px-6">
+            <h1 class="text-lg md:text-xl lg:text-2xl font-bold tracking-wide">
+                Halo, {{ Auth::guard('petugas')->user()->nama_petugas }}
+            </h1>
         </header>
+
 
         <nav class="w-[20%] h-screen fixed top-0 left-0">
             @include('layouts.sidebar')

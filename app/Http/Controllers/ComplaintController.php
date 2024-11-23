@@ -81,6 +81,7 @@ class ComplaintController extends Controller
         $ghazwanDataComplaint2 = Pengaduan::where('id_pengaduan', $ghazwanReq->ghazwanId);
         $ghazwanDataComplaint2->update(['status' => $ghazwanReq->ghazwanStatus]);
 
+        activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah menanggapi pengaduan dengan id' . $ghazwanReq->id_pengaduan);
         return redirect()->back();
     }
 
@@ -91,4 +92,25 @@ class ComplaintController extends Controller
         // dd($ghazwanDataComplaint);
         return view('my-complaint', compact('ghazwanDataComplaint'));
     }
+
+    public function updateComplaint(request $ghazwanReq, $id){
+        $ghazwanReq->validate([
+            'description' => 'required|string|max:255',
+            'status' => 'required|in:0,proses,selesai',
+        ]);
+
+        $ghazwanComplaint = Pengaduan::findOrFail($id);
+        $ghazwanComplaint->description = $ghazwanReq->input('description');
+        if ($ghazwanReq->file('ghazwanImage')) {
+            $ghazwanFile = $ghazwanReq->file('ghazwanImage');
+            $ghazwanExtension = $ghazwanFile->getClientOriginalExtension();
+            $ghazwanFilenameToStore = Auth::guard('masyarakat')->user()->id . '_' . time() . '.' . $ghazwanExtension;
+            $ghazwanPath = $ghazwanFile->storeAs('bukti_laporan', $ghazwanFilenameToStore, 'public');
+            $ghazwanComplaint->foto = $ghazwanPath;
+        }
+        $ghazwanComplaint->save();
+
+        return redirect()->route('pengaduan.index')->with('success', 'Pengaduan berhasil diperbarui.');
+    }
+
 }

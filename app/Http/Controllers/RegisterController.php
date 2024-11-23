@@ -6,6 +6,7 @@ use App\Models\Petugas;
 use App\Models\Masyarakat;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -81,6 +82,7 @@ class RegisterController extends Controller
         $ghazwanMasyarakat->telp = $ghazwanReq->ghazwanPhone;
         $ghazwanMasyarakat->save();
 
+        activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah membuat akun masyarakat');
         notify()->success('Akun Berhasil Dibuat!');
         return redirect()->back();
     }
@@ -115,7 +117,7 @@ class RegisterController extends Controller
         $ghazwanPetugas->level = $ghazwanReq->ghazwanLevel;
         $ghazwanPetugas->save();
 
-
+        activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah melakukan membuat akun petugas');
         notify()->success('Akun Berhasil Dibuat!');
         return redirect(route('ghazwanView.admin.manage.officer'));
     }
@@ -151,6 +153,7 @@ class RegisterController extends Controller
             'telp' => $ghazwanReq->ghazwanPhone
         ]);
 
+        activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah mengubah akun masyarakat');
         notify()->success('Akun Berhasil Diperbarui!');
         return redirect()->route('ghazwanView.admin.manage.user');
     }
@@ -185,6 +188,7 @@ class RegisterController extends Controller
             'level' => $ghazwanReq->ghazwanLevel
         ]);
 
+        activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah mengubah akun petugas');
         notify()->success('Akun Berhasil Diperbarui!');
         return redirect()->route('ghazwanView.admin.manage.officer');
     }

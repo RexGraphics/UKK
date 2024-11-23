@@ -21,71 +21,63 @@ class ReportController extends Controller
         return view('admin.report', compact('ghazwanMonthlyReport', 'ghazwanFilterYear'));
     }
 
-    public function filterData(Request $request)
-    {
-        $ghazwanFilterYear = $request->filled('ghazwanPeriod') ? $request->ghazwanPeriod : null;
+public function filterData(Request $request)
+{
+    $ghazwanFilterYear = $request->filled('ghazwanPeriod') ? $request->ghazwanPeriod : null;
 
-        for ($ghazwanMonth = 1; $ghazwanMonth <= 12; $ghazwanMonth++) {
-            $ghazwanMonthlyReport[$ghazwanMonth] = [
-                'bulan' => \DateTime::createFromFormat('!m', $ghazwanMonth)->format('F'), // Nama ghazwanMonth
-                'baru' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
-                    ->whereMonth('tgl_pengaduan', $ghazwanMonth)
-                    ->where('status', '0')
-                    ->count(),
-                'proses' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
-                    ->whereMonth('tgl_pengaduan', $ghazwanMonth)
-                    ->where('status', 'proses')
-                    ->count(),
-                'selesai' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
-                    ->whereMonth('tgl_pengaduan', $ghazwanMonth)
-                    ->where('status', 'selesai')
-                    ->count(),
-            ];
-        }
+    // Array nama bulan dalam bahasa Indonesia
+    $namaBulan = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember',
+    ];
 
-
-        return view('admin.report', compact('ghazwanMonthlyReport', 'ghazwanFilterYear'));
+    for ($ghazwanMonth = 1; $ghazwanMonth <= 12; $ghazwanMonth++) {
+        $ghazwanMonthlyReport[$ghazwanMonth] = [
+            'bulan' => $namaBulan[$ghazwanMonth], // Nama bulan dalam bahasa Indonesia
+            'baru' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
+                ->whereMonth('tgl_pengaduan', $ghazwanMonth)
+                ->where('status', '0')
+                ->count(),
+            'proses' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
+                ->whereMonth('tgl_pengaduan', $ghazwanMonth)
+                ->where('status', 'proses')
+                ->count(),
+            'selesai' => Pengaduan::whereYear('tgl_pengaduan', $ghazwanFilterYear)
+                ->whereMonth('tgl_pengaduan', $ghazwanMonth)
+                ->where('status', 'selesai')
+                ->count(),
+        ];
     }
 
-    // public function filterData(Request $ghazwanReq)
-    // {
+    Session::put([
+        'ghazwanMonthlyReport' => $ghazwanMonthlyReport,
+        'ghazwanYear' => $ghazwanFilterYear
+    ]);
 
-    //     $ghazwanStartDate = Carbon::parse($ghazwanReq->start)->format('Y-m-d');
-    //     $ghazwanEndDate = Carbon::parse($ghazwanReq->end)->format('Y-m-d');
-
-    //     $query = Pengaduan::query();
-
-
-    //     if($ghazwanReq->filled('ghazwanStatus')){
-    //         if($ghazwanReq->ghazwanStatus != 'semua'){
-    //             $query->where('status','=', $ghazwanReq->ghazwanStatus);
-    //         }
-
-    //     }
-
-    //     if($ghazwanReq->filled('start')){
-    //         $query->where('tgl_pengaduan','>=', $ghazwanStartDate);
-    //     }
-
-    //     if($ghazwanReq->filled('end')){
-    //         $query->where('tgl_pengaduan','<=', $ghazwanEndDate);
-
-    //     }
-
-
-    //     $ghazwanReport = $query->orderBy('tgl_pengaduan', 'desc') ->get();
-    //     Session::put('ghazwanReportPrint', $ghazwanReport);
-
-    //     return view('admin.report', compact('ghazwanReport'));
-    // }
+    return view('admin.report', compact('ghazwanMonthlyReport', 'ghazwanFilterYear'));
+}
 
     public function printData(Request $ghazwanReq)
     {
 
-        $ghazwanReport = Session::get('ghazwanReportPrint');
-        // dd($ghazwanReport);
+        $ghazwanPeriod = Session::get('ghazwanYear');
+        $ghazwanReport = Session::get('ghazwanMonthlyReport');
+
+        if (is_null($ghazwanReport)) {
+            return redirect()->back()->withErrors('Data laporan tidak tersedia. Silakan pilih periode terlebih dahulu.');
+        }
         if ($ghazwanReq->get('export') == 'pdf') {
-            $ghazwanPdf = Pdf::loadView('report.index', ['ghazwanReport' => $ghazwanReport]);
+            $ghazwanPdf = Pdf::loadView('report.index', ['ghazwanReport' => $ghazwanReport, 'ghazwanPeriod' => $ghazwanPeriod]);
             return $ghazwanPdf->stream('Laporan Pengaduan.pdf');
         }
     }

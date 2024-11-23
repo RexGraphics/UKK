@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Activity;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
@@ -30,6 +32,10 @@ Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function ()
     Route::get('/edit-complaint/{id}', [ComplaintController::class, 'editComplaint'])->name('ghazwanForm.edit.complaint');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
+    Route::post('/update-complaint', [ComplaintController::class, 'updateComplaint'])->name('ghazwanForm.update.complaint');
+
+    Route::get('/activity-log', [ActivityController::class, 'showActivity'])->name('ghazwanShow.activity');
+
     Route::get('/print', [ReportController::class, 'printData'])->name('ghazwanPrint.report');
 
     Route::post('/report-filter', [ReportController::class, 'filterData'])->name('ghazwanData.filter');

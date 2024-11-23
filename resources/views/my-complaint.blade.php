@@ -36,7 +36,7 @@
 
             <nav class="space-x-4 inline-flex items-center justify-center">
                 <p class="text-nowrap text-xl">
-                    {{ Auth::guard('masyarakat')->check() ? 'Anda Login Sebagai ' . Auth::guard('masyarakat')->user()->nama : '' }}
+                    {{ Auth::guard('masyarakat')->check() ? 'Halo, ' . Auth::guard('masyarakat')->user()->nama : '' }}
                 </p>
                 {!! Auth::guard('masyarakat')->check()
                     ? '<button data-modal-target="ghazwanPopup-modal" data-modal-toggle="ghazwanPopup-modal" class="text-white bg-opacity-10 bg-black hover:text-[#e33e20] border border-white hover:bg-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 " type="button">Keluar</button>'
@@ -194,7 +194,7 @@
 
                                                             <!-- Middle - Details -->
                                                             <div class="w-1/2 space-y-4">
-                                                                <form action="update-complaint" method="post">
+                                                                <form action="ghazwanForm.update.complaint" method="post">
                                                                     @csrf
                                                                     <div class="grid grid-cols-2 gap-4">
                                                                         <div>
@@ -278,7 +278,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="text-[0.7rem] font-medium text-right mt-2">
-                                                                                        <p>07-12-2024</p>
+                                                                                        <p>{{$message->tgl_tanggapan}}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

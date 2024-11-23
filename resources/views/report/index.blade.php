@@ -5,119 +5,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            font-size: 0.9rem;
+            margin: 20px 40px;
+            /* Memberikan margin di sekitar halaman */
+            font-family: Arial, sans-serif;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th,
         td {
-            border: 1px solid #000;
+            border: 1px solid #333;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #eaeaea;
+            font-weight: bold;
+        }
+
+        h2,
+        h3 {
+            margin-bottom: 15px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        p {
+            text-align: justify;
+            margin: 10px 0;
         }
     </style>
 </head>
 
 <body>
-    <img src="" width="100" height="100" alt="Lambang Kota Cimahi">
-    <h2>Laporan Pengaduan Masyarakat Kota Cimahi</h2>
+    <div class="bungkusan">
+        <h2>Rekapitulasi Laporan Pengaduan Masyarakat</h2>
+
+    </div>
 
     <table>
         <tbody>
             <tr>
-                <td>Periode</td>
+                <td>Periode Laporan</td>
                 <td>:</td>
-                {{-- <td>{{ $ghazwanAllData }}</td> --}}
+                <td>{{ $ghazwanPeriod }}</td>
             </tr>
             <tr>
-                <td>Penyusun</td>
+                <td>Disusun Oleh</td>
                 <td>:</td>
-                <td>Tim Pengaduan Masyarakat</td>
+                <td>Tim Layanan Pengaduan</td>
             </tr>
             <tr>
-                <td>Wilayah</td>
+                <td>Area</td>
                 <td>:</td>
-                <td>Kota Cimahi</td>
+                <td>Kota Bandung</td>
             </tr>
         </tbody>
     </table>
 
     <br>
 
-    <h3>I. Pendahuluan</h3>
-    <p>Laporan ini disusun berdasarkan data pengaduan yang masuk ke dalam sistem pengaduan masyarakat Kota Cimahi. Data
-        tersebut diolah dan disajikan dalam bentuk tabel untuk memudahkan pemahaman dan analisis.</p>
+    <h3>A. Pendahuluan</h3>
+    <p>Laporan ini merupakan hasil pengolahan data pengaduan masyarakat yang telah diterima melalui aplikasi LaporPak.
+        Tujuan dari laporan ini adalah untuk memberikan informasi terkini tentang penanganan pengaduan masyarakat di
+        Kota Bandung.</p>
 
-    <h3>II. Hasil Pengaduan</h3>
+    <h3>B. Data Pengaduan</h3>
 
     <table>
         <thead>
             <tr>
                 <th>Bulan</th>
-                <th>Belum Selesai</th>
-                <th>Sedang Proses</th>
-                <th>Selesai</th>
+                <th>Pengaduan Baru</th>
+                <th>Sedang Diproses</th>
+                <th>Tuntas</th>
             </tr>
         </thead>
         <tbody>
-
+            @if ($ghazwanReport != 'Pilih tahun untuk menampilkan data')
+                @foreach ($ghazwanReport as $item)
+                    <tr>
+                        <td>{{ $item['bulan'] }}</td>
+                        <td>{{ $item['baru'] }}</td>
+                        <td>{{ $item['proses'] }}</td>
+                        <td>{{ $item['selesai'] }}</td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="4" class="text-center"><strong>{{ $ghazwanReport }}</strong></td>
+                </tr>
+            @endif
         </tbody>
     </table>
 
-    <h3>III. Penutup</h3>
-    <p>Laporan ini disusun untuk memenuhi tugas kelompok dan dapat digunakan sebagai acuan dalam menangani masalah
-        pengaduan masyarakat Kota Cimahi.</p>
-
-    <br>
-
-    <div class="w-[95%] relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th class="px-6 py-3">
-                        <div class="flex items-center">
-                            Tanggal Pengaduan
-                            <a href="#"></a>
-                        </div>
-                    </th>
-                    <th class="px-6 py-3">
-                        <div class="flex items-center">
-                            Status
-                            <a href="#"></a>
-                        </div>
-                    </th>
-                    <th class="px-6 py-3 flex text-center">
-                        Total
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ghazwanReport as $value)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                        data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
-                        data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}">
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $value->tgl_pengaduan }}
-                        </td>
-                        <td class="px-6 py-4 capitalize">
-                            {{ $value->status === null ? 'Semua' : ($value->status == 0 ? 'Baru' : $value->status) }}
-
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="edit-officer/{{ $value->id_pengaduan }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Edit</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
+    <h3>C. Kesimpulan</h3>
+    <p>Rekap ini dibuat untuk memberikan gambaran umum tentang kondisi pengaduan masyarakat yang telah diolah oleh tim
+        pengelola. Laporan ini dapat digunakan sebagai referensi untuk perbaikan di masa mendatang.</p>
 </body>
 
 </html>

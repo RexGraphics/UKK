@@ -100,7 +100,7 @@
                 </a>
             </li>
             <li>
-                <a href="/activity"
+                <a href="/activity-log"
                     class="flex {{request()->routeIs('ghazwanView.admin.activity') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Activity</span>
                 </a>
