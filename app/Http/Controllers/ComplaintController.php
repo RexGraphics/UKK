@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Petugas;
 use App\Models\Pengaduan;
 use App\Models\Tanggapan;
-use App\Models\Petugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ComplaintController extends Controller
 {
@@ -31,7 +32,7 @@ class ComplaintController extends Controller
         if ($ghazwanReq->file('ghazwanImage')) {
             $ghazwanFile = $ghazwanReq->file('ghazwanImage');
             $ghazwanExtension = $ghazwanFile->getClientOriginalExtension();
-            $ghazwanFilenameToStore = Auth::guard('masyarakat')->user()->id . '_' . time() . '.' . $ghazwanExtension;
+            $ghazwanFilenameToStore = Auth::guard('masyarakat')->user()->id . '_' . date('His') . '.' . $ghazwanExtension;
             $ghazwanPath = $ghazwanFile->storeAs('bukti_laporan', $ghazwanFilenameToStore, 'public');
             $ghazwanComplaint->foto = $ghazwanPath;
         }
@@ -41,30 +42,41 @@ class ComplaintController extends Controller
         return redirect()->back();
     }
 
-    public function showComplaint()
+    public function showComplaint(Request $request)
     {
-        $ghazwanDataComplaint = Pengaduan::all();
+        $perPage = $request->get('per_page', 10);
 
-        return view('admin.complaint', compact('ghazwanDataComplaint'));
+        $perPage = is_numeric($perPage) && $perPage > 0 ? (int)$perPage : 10;
+
+        // Urutkan data berdasarkan created_at secara descending
+        $ghazwanDataComplaint = Pengaduan::paginate($perPage);
+        // $ghazwanActivity = Activity::orderBy('created_at', 'desc');
+
+        // return view('admin.activity', compact('ghazwanActivity', 'perPage'));
+
+        return view('admin.complaint', compact('ghazwanDataComplaint', 'perPage'));
     }
 
-    public function showComplaintDone()
+    public function showComplaintDone(Request $request)
     {
-        // $ghazwanDataComplaint = Pengaduan::join('tanggapan','pengaduan.id_pengaduan','=','tanggapan.id_pengaduan')->distinct('pengaduan.id_pengaduan')->select('pengaduan.*','tanggapan.tanggapan as tanggapan')->get();
+        $perPage = $request->get('per_page', 10);
+
+        $perPage = is_numeric($perPage) && $perPage > 0 ? (int)$perPage : 10;
+
         $ghazwanDataComplaint = Pengaduan::join('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
             ->join('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas')
             ->distinct('pengaduan.id_pengaduan')
             ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'petugas.nama_petugas as nama_petugas')
-            ->get();
+            ->paginate($perPage);
 
-        return view('admin.complaint-done', compact('ghazwanDataComplaint'));
+        return view('admin.complaint-done', compact('ghazwanDataComplaint', 'perPage'));
     }
 
     public function processComplaint(Request $ghazwanReq)
     {
 
 
-        if($ghazwanReq->ghazwanTanggapan == ''){
+        if ($ghazwanReq->ghazwanTanggapan == '') {
             notify()->error('Tanggapan Tidak Boleh Kosong!', 'Gagal');
             return redirect()->back();
         }
@@ -87,30 +99,64 @@ class ComplaintController extends Controller
 
     public function showUserComplaint()
     {
-        $ghazwanDataComplaint = Pengaduan::leftJoin('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan') ->leftJoin('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas') ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'pengaduan.status as status', 'petugas.nama_petugas as nama_petugas') ->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik) ->get();
-        // $ghazwanDataComplaint = Pengaduan::join('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan') ->join('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas') ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'pengaduan.status as status', 'petugas.nama_petugas as nama_petugas') ->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik) ->get();
-        // dd($ghazwanDataComplaint);
+        $ghazwanDataComplaint = Pengaduan::leftJoin('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')->leftJoin('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas')->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'pengaduan.status as status', 'petugas.nama_petugas as nama_petugas')->where('pengaduan.nik', '=', Auth::guard('masyarakat')->user()->nik)->get();
+
         return view('my-complaint', compact('ghazwanDataComplaint'));
     }
 
-    public function updateComplaint(request $ghazwanReq, $id){
+    public function updateComplaint(Request $ghazwanReq, $id)
+    {
         $ghazwanReq->validate([
-            'description' => 'required|string|max:255',
-            'status' => 'required|in:0,proses,selesai',
+            'ghazwanNewComplaint' => 'required|string',
+            'ghazwanImage' => 'nullable|image|max:5120',
+        ], [
+            'ghazwanNewComplaint.required' => 'Isi laporan tidak boleh kosong!',
+            'ghazwanImage.image' => 'File harus berupa gambar!',
+            'ghazwanImage.max' => 'Ukuran gambar tidak boleh lebih dari 5MB!',
         ]);
 
-        $ghazwanComplaint = Pengaduan::findOrFail($id);
-        $ghazwanComplaint->description = $ghazwanReq->input('description');
-        if ($ghazwanReq->file('ghazwanImage')) {
-            $ghazwanFile = $ghazwanReq->file('ghazwanImage');
-            $ghazwanExtension = $ghazwanFile->getClientOriginalExtension();
-            $ghazwanFilenameToStore = Auth::guard('masyarakat')->user()->id . '_' . time() . '.' . $ghazwanExtension;
-            $ghazwanPath = $ghazwanFile->storeAs('bukti_laporan', $ghazwanFilenameToStore, 'public');
-            $ghazwanComplaint->foto = $ghazwanPath;
-        }
-        $ghazwanComplaint->save();
+        $ghazwanUpdate = Pengaduan::where('id_pengaduan', '=', $id);
 
-        return redirect()->route('pengaduan.index')->with('success', 'Pengaduan berhasil diperbarui.');
+        try {
+
+            if ($ghazwanReq->ghazwanNewComplaint != null) {
+                $ghazwanUpdate->update(['isi_laporan'=>$ghazwanReq->ghazwanNewComplaint]);
+            }
+            if ($ghazwanReq->hasFile('ghazwanImage')) {
+                if ($ghazwanReq->ghazwanImage && Storage::disk('public')->exists($ghazwanReq->ghazwanImage)) {
+                    Storage::disk('public')->delete($ghazwanReq->ghazwanImage);
+                }
+
+                $file = $ghazwanReq->file('ghazwanImage');
+                $extension = $file->getClientOriginalExtension();
+                $filename = Auth::guard('masyarakat')->user()->id . '_' . date('His') . '.' . $extension;
+                $path = $file->storeAs('bukti_laporan', $filename, 'public');
+                $ghazwanUpdate->update(['foto'=>$path]);
+            }
+
+            notify()->success('Pengaduan berhasil diperbaharui', 'Sukses!');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notify()->error('Terjadi kesalahan saat memperbarui pengaduan!' . $e, 'Gagal!');
+            return redirect()->back();
+        }
     }
 
+    public function deleteComplaint($id){
+        $ghazwanDelete = Pengaduan::where('id_pengaduan', '=', $id);
+
+        try {
+            $ghazwanDelete->delete();
+            notify()->success('Pengaduan berhasil dihapus', 'Sukses!');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notify()->error('Terjadi kesalahan saat menghapus pengaduan!' . $e, 'Gagal!');
+            return redirect()->back();
+        }
+    }
 }
+
+    // if ($ghazwanUpdate->nik != Auth::guard('masyarakat')->user()->nik) {
+    //     notify()->error('Anda tidak memiliki akses untuk mengubah pengaduan ini!', 'Gagal!');
+    //     return redirect()->back();
+    // }

@@ -2,6 +2,18 @@
 @section('content')
     <div class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen w-full flex flex-col mt-24 items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
+            <div class="w-[95%] flex justify-between items-center mb-4">
+                <form method="GET" class="flex items-center gap-2">
+                    <label for="per_page" class="text-sm text-gray-700">Tampilkan:</label>
+                    <select name="per_page" id="per_page" class="border border-gray-300 text-sm rounded-lg p-2"
+                            onchange="this.form.submit()">
+                        <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+                </form>
+            </div>
             <div class="w-[95%] relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,20 +81,21 @@
                                         {{ $value->status == '0' ? 'Baru' : $value->status }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="edit-officer/{{ $value->id_pengaduan }}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Edit</a>
+                                        <button data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
+                                    data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}"
+                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Lihat</button>
                                     </td>
                                 </tr>
+
+
                                 <div id="ghazwanDetailModal{{ $value->id_pengaduan }}" tabindex="-1" aria-hidden="true"
                                     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                     <div class="relative w-full max-w-5xl max-h-full">
                                         <div class="relative bg-white rounded-lg shadow">
                                             <form action="/complaint/process" method="post">
                                                 @csrf
-                                                <!-- Modal body -->
                                                 <div class="p-6 space-y-6">
                                                     <div class="flex gap-6">
-                                                        <!-- Left side - Image -->
                                                         <div class="w-1/4 flex-shrink-0">
                                                             @if ($value->foto)
                                                                 <img src="{{ asset('storage/' . $value->foto) }}"
@@ -96,7 +109,6 @@
                                                             @endif
                                                         </div>
 
-                                                        <!-- Middle - Details -->
                                                         <div class="w-1/2 space-y-4">
                                                             <div class="grid grid-cols-2 gap-4">
                                                                 <div>
@@ -128,12 +140,9 @@
                                                             </div>
                                                         </div>
 
-                                                        <!-- Right side - Chat Area -->
                                                         <div class="w-2/5 flex flex-col">
-                                                            <!-- Scrollable Chat Container -->
                                                             <div
                                                                 class="h-64 overflow-y-auto border border-gray-300 rounded-lg mb-2 p-2">
-                                                                <!-- Chat messages will be dynamically populated here -->
                                                                 @foreach ($ghazwanDataComplaint as $message)
                                                                     @if ($value->id_pengaduan == $message->id_pengaduan)
                                                                         <div class="mb-1">
@@ -170,6 +179,78 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="flex w-full items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div class="flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6 w-full">
+                        <div class="w-full sm:w-auto">
+                            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                {{-- Tombol Previous --}}
+                                @if ($ghazwanDataComplaint->onFirstPage())
+                                    <span
+                                        class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @else
+                                    <a href="{{ $ghazwanDataComplaint->previousPageUrl() }}"
+                                       class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @endif
+
+                                {{-- Pagination --}}
+                                @foreach ($ghazwanDataComplaint->links()->elements[0] as $page => $url)
+                                    @if ($page == $ghazwanDataComplaint->currentPage())
+                                        <span
+                                            class="relative z-10 inline-flex items-center bg-custom-orange px-4 py-2 text-sm font-semibold text-white">
+                                            {{ $page }}
+                                        </span>
+                                    @else
+                                        <a href="{{ $url }}"
+                                           class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                            {{ $page }}
+                                        </a>
+                                    @endif
+                                @endforeach
+
+                                {{-- Tombol Next --}}
+                                @if ($ghazwanDataComplaint->hasMorePages())
+                                    <a href="{{ $ghazwanDataComplaint->nextPageUrl() }}"
+                                       class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    <span
+                                        class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25-4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

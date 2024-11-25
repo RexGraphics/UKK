@@ -29,11 +29,12 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth:masyarakat', 'cekMasyarakat']], function () {
     Route::post('/submit-complaint', [ComplaintController::class, 'submitComplaint'])->name('ghazwanForm.user.submit');
     Route::get('/my-complaint', [ComplaintController::class, 'showUserComplaint'])->name('ghazwanForm.user.show.complaint');
-    Route::get('/edit-complaint/{id}', [ComplaintController::class, 'editComplaint'])->name('ghazwanForm.edit.complaint');
+    Route::post('/update-complaint/{id}', [ComplaintController::class, 'updateComplaint'])->name('ghazwanForm.update.complaint');
+    Route::get('/delete-mycomplaint/{id}', [ComplaintController::class, 'deleteComplaint'])->name('ghazwanForm.user.delete.complaint');
 });
 Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], function () {
-    Route::post('/update-complaint', [ComplaintController::class, 'updateComplaint'])->name('ghazwanForm.update.complaint');
 
+    Route::get('/delete-complaint/{id}', [ComplaintController::class, 'deleteComplaint'])->name('ghazwanForm.delete.complaint');
     Route::get('/activity-log', [ActivityController::class, 'showActivity'])->name('ghazwanShow.activity');
 
     Route::get('/print', [ReportController::class, 'printData'])->name('ghazwanPrint.report');

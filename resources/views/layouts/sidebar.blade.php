@@ -111,8 +111,11 @@
         @endif
         <ul class="space-y-2 px-4">
             <li>
-                <a href="/logout" class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200"><span class="ml-2">Keluar</span></a>
+                <a href="#" data-modal-toggle="popup-modal" data-modal-target="popup-modal" class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200"><span class="ml-2">Keluar</span></a>
+                
             </li>
         </ul>
+
+
     </div>
 </div>

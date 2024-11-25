@@ -20,7 +20,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">No</th>
                             <th scope="col" class="px-6 py-3">Keterangan Waktu</th>
-                            <th scope="col" class="px-6 py-3">Pelaku</th>
+                            <th scope="col" class="px-6 py-3">ID Pelaku</th>
                             <th scope="col" class="px-6 py-3">Deskripsi</th>
                         </tr>
                     </thead>

@@ -2,7 +2,18 @@
 @section('content')
     <div class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen w-full flex flex-col mt-24 items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
-
+            <div class="w-[95%] flex justify-between items-center mb-4">
+                <form method="GET" class="flex items-center gap-2">
+                    <label for="per_page" class="text-sm text-gray-700">Tampilkan:</label>
+                    <select name="per_page" id="per_page" class="border border-gray-300 text-sm rounded-lg p-2"
+                            onchange="this.form.submit()">
+                        <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                    </select>
+                </form>
+            </div>
             <div class="w-[95%] relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -68,8 +79,7 @@
                                     {{ $value->status == '0' ? 'Baru' : $value->status }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="edit-officer/{{ $value->id_pengaduan }}"
-                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Edit</a>
+                                    <button data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}" data-modal-toggle="ghazwanDetailModal{{ $value->id_pengaduan }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline text-center">Lihat</button>
                                 </td>
                             </tr>
                             <div id="ghazwanDetailModal{{ $value->id_pengaduan }}" tabindex="-1" aria-hidden="true"
@@ -190,7 +200,7 @@
 
                                             <div
                                                 class="flex items-center justify-between p-6 space-x-2 border-t border-gray-200 rounded-b">
-                                                <a href="/hapus/{$value->id_pengaduan}"
+                                                <a href="#" data-modal-target="ghazwanDeleteModal{{ $value->id_pengaduan }}" data-modal-toggle="ghazwanDeleteModal{{ $value->id_pengaduan }}"
                                                     class="text-white !bg-red-600 hover:!bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                     Hapus
                                                 </a>
@@ -198,6 +208,45 @@
                                                     class="text-white !bg-custom-orange hover:!bg-orange-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                     Kirim
                                                 </button>
+                                            </div>
+
+                                            <div id="ghazwanDeleteModal{{ $value->id_pengaduan }}" tabindex="-1"
+                                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                        <button type="button"
+                                                            class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                            data-modal-hide="ghazwanDeleteModal{{ $value->id_pengaduan }}">
+                                                            <svg class="w-3 h-3" aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 14 14">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                            </svg>
+                                                            <span class="sr-only">Close modal</span>
+                                                        </button>
+                                                        <div class="p-4 md:p-5 text-center">
+                                                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none" viewBox="0 0 20 20">
+                                                                <path stroke="currentColor" stroke-linecap="round"
+                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                            </svg>
+                                                            <h3
+                                                                class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                Apakah anda yakin untuk menghapus laporan ini?</h3>
+                                                            <a href="/delete-complaint/{{ $value->id_pengaduan }}"
+                                                                data-modal-hide="ghazwanDeleteModal" type="button"
+                                                                class="text-white !bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                                Yakin
+                                                            </a>
+                                                            <button data-modal-hide="ghazwanDeleteModal{{ $value->id_pengaduan }}" type="button"
+                                                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Tidak</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </form>
@@ -211,6 +260,78 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="flex w-full items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div class="flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6 w-full">
+                        <div class="w-full sm:w-auto">
+                            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                {{-- Tombol Previous --}}
+                                @if ($ghazwanDataComplaint->onFirstPage())
+                                    <span
+                                        class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @else
+                                    <a href="{{ $ghazwanDataComplaint->previousPageUrl() }}"
+                                       class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @endif
+
+                                {{-- Pagination --}}
+                                @foreach ($ghazwanDataComplaint->links()->elements[0] as $page => $url)
+                                    @if ($page == $ghazwanDataComplaint->currentPage())
+                                        <span
+                                            class="relative z-10 inline-flex items-center bg-custom-orange px-4 py-2 text-sm font-semibold text-white">
+                                            {{ $page }}
+                                        </span>
+                                    @else
+                                        <a href="{{ $url }}"
+                                           class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                            {{ $page }}
+                                        </a>
+                                    @endif
+                                @endforeach
+
+                                {{-- Tombol Next --}}
+                                @if ($ghazwanDataComplaint->hasMorePages())
+                                    <a href="{{ $ghazwanDataComplaint->nextPageUrl() }}"
+                                       class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    <span
+                                        class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300">
+                                        <span class="sr-only">Next</span>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25-4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

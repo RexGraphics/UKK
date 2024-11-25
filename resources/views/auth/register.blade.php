@@ -20,16 +20,31 @@
 </head>
 
 <body>
+    <div class="fixed inset-0 -z-10">
+        <div id="ghazwanBackground1" class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-100"
+            style="background-image: url('{{ asset('assets/images/bg1.jpeg') }}')">
+        </div>
+        <div id="ghazwanBackground2" class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-0"
+            style="background-image: url('{{ asset('assets/images/bg2.jpg') }}')">
+        </div>
+        <div id="ghazwanBackground3" class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-0"
+            style="background-image: url('{{ asset('assets/images/bg3.jpg') }}')">
+        </div>
+
+        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/40 to-orange-600/40"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+    </div>
+
     <div class="font-sans text-gray-900 antialiased">
         <div>
             <a href="/">
-                <h2 class="font-bold text-3xl p-12 absolute">Kembali</h2>
+                <h2 class="font-bold text-white text-3xl p-12 absolute">Kembali</h2>
             </a>
         </div>
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f8f4f300]">
             <div>
                 <a href="/">
-                    <h2 class="font-bold text-3xl">Pengaduan <span class="bg-[#f84525] text-white px-2 rounded-md">Masyarakat</span></h2>
+                    <h2 class="font-bold text-white text-3xl">Pengaduan <span class="bg-[#f84525] text-white px-2 rounded-md">Masyarakat</span></h2>
                 </a>
             </div>
 
@@ -133,6 +148,27 @@
         const type = ghazwanPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         ghazwanPasswordInput.setAttribute('type', type);
     });
+
+    const ghazwanBackgrounds = ['ghazwanBackground1', 'ghazwanBackground2', 'ghazwanBackground3'];
+        let ghazwanCurrentBackground = 0;
+
+        function ghazwanFadeBackground() {
+            document.getElementById(ghazwanBackgrounds[ghazwanCurrentBackground]).classList.replace('opacity-100', 'opacity-0');
+
+            ghazwanCurrentBackground = (ghazwanCurrentBackground + 1) % ghazwanBackgrounds.length;
+
+            document.getElementById(ghazwanBackgrounds[ghazwanCurrentBackground]).classList.replace('opacity-0', 'opacity-100');
+        }
+
+        const ghazwanBackgroundInterval = setInterval(ghazwanFadeBackground, 5000);
+
+        const ghazwanPasswordInput = document.getElementById('ghazwanPassword');
+        const ghazwanShowPassword = document.getElementById('ghazwanShowPassword');
+
+        ghazwanShowPassword.addEventListener('click', () => {
+            const ghazwanPasswordType = ghazwanPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            ghazwanPasswordInput.setAttribute('type', ghazwanPasswordType);
+        });
 </script>
 <x-notify::notify />
         @notifyJs
