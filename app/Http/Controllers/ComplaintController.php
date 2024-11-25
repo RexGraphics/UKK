@@ -48,11 +48,8 @@ class ComplaintController extends Controller
 
         $perPage = is_numeric($perPage) && $perPage > 0 ? (int)$perPage : 10;
 
-        // Urutkan data berdasarkan created_at secara descending
         $ghazwanDataComplaint = Pengaduan::paginate($perPage);
-        // $ghazwanActivity = Activity::orderBy('created_at', 'desc');
 
-        // return view('admin.activity', compact('ghazwanActivity', 'perPage'));
 
         return view('admin.complaint', compact('ghazwanDataComplaint', 'perPage'));
     }
