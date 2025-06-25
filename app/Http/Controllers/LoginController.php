@@ -86,10 +86,20 @@ class LoginController extends Controller
             activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah melakukan login');
             return redirect('/dashboard');
         }elseif(Auth::guard('masyarakat')->attempt(['username' => $ghazwanReq->ghazwanUsername, 'password' => $ghazwanReq->ghazwanPassword])){
-            return redirect('/');
+            if(Auth::guard('masyarakat')->user()->status == null){
+                if(Auth::guard('masyarakat')->check()){
+                    Auth::guard('masyarakat')->logout();
+                }
+                notify()->error('Akun anda belum diverifikasi','Login Gagal');
+                return redirect('/');
+            }else{
+                notify()->success('Anda Berhasil Login!','Sukses!');
+                return redirect('/');
+
+            }
         }
 
-            notify()->error('akun belum terdaftar','Login Gagal!');
+            notify()->error('akun tidak sesuai','Login Gagal!');
             return redirect()->back();
     }
 

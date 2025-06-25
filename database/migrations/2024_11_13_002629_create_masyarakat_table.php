@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('username', 225);
             $table->string('password', 225);
             $table->string('telp', 13);
+            $table->enum('status',['verified', null])->nullable(true);
             $table->timestamps();
         });
     }

@@ -46,6 +46,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($ghazwanUsers->count() == '0')
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="6" class="px-6 py-4 capitalize text-center text-xl">
+                                Tidak ada data yang bisa di tampilkan
+                            </td>
+                        </tr>
+                        @endif
                         @foreach($ghazwanUsers as $value)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row"

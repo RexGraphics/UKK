@@ -15,12 +15,12 @@
                     <span class="ml-2">Dashboard</span>
                 </a>
             </li>
-            {{-- <li>
-                <a href="{{ route('ghazwanView.admin.manageUser') }}"
-                    class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
-                    <span class="ml-2">Kelola Pengguna</span>
+            <li>
+                <a href="{{ route('ghazwanView.admin.verify.user') }}"
+                    class="flex {{request()->routeIs('ghazwanView.admin.verify.user') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                    <span class="ml-2">Verifikasi Akun Masyarakat</span>
                 </a>
-            </li> --}}
+            </li>
 
             {{-- ini teh list yang ada dropdownnya --}}
             @if (Auth::guard('petugas')->user()->level == 'admin')
@@ -101,7 +101,7 @@
             </li>
             <li>
                 <a href="/activity-log"
-                    class="flex {{request()->routeIs('ghazwanView.admin.activity') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
+                    class="flex {{request()->routeIs('ghazwanShow.activity') ? 'bg-[#e33e20]' : ''}} items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200">
                     <span class="ml-2">Activity</span>
                 </a>
             </li>
@@ -112,7 +112,7 @@
         <ul class="space-y-2 px-4">
             <li>
                 <a href="#" data-modal-toggle="popup-modal" data-modal-target="popup-modal" class="flex items-center p-2 rounded-md hover:bg-[#e33e20] transition duration-200"><span class="ml-2">Keluar</span></a>
-                
+
             </li>
         </ul>
 

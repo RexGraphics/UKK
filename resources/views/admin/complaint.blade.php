@@ -2,7 +2,7 @@
 @section('content')
     <div class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen w-full flex flex-col mt-24 items-center pt-6 sm:pt-0 bg-[#f8f4f3]">
-            <div class="w-[95%] flex justify-between items-center mb-4">
+            <div class="w-[95%] flex justify-left items-center mb-4">
                 <form method="GET" class="flex items-center gap-2">
                     <label for="per_page" class="text-sm text-gray-700">Tampilkan:</label>
                     <select name="per_page" id="per_page" class="border border-gray-300 text-sm rounded-lg p-2"
@@ -12,6 +12,12 @@
                         <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
                         <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
                     </select>
+                    <label for="ghazwanSearch" class="text-sm text-gray-700">Cari Isi Pengaduan</label>
+                    <input type="text" name="ghazwanSearch" id="ghazwanSearch" class="border border-gray-300 text-sm rounded-lg p-2">
+                    <button type="submit"
+                            class ="ms-4 inline-flex items-center px-4 py-2 !bg-[#f84525] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-800 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Cari
+                    </button>
                 </form>
             </div>
             <div class="w-[95%] relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -54,8 +60,23 @@
                         @php
                         $ghazwanIndex = 1;
                         @endphp
+                        @if ($ghazwanDataComplaint->count() == '0')
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="6" class="px-6 py-4 capitalize text-center text-xl">
+                                Tidak ada data yang bisa di tampilkan
+                            </td>
+                        </tr>
+                        @endif
                         @foreach ($ghazwanDataComplaint as $value)
+                        @if ($ghazwanDataComplaint->first() == $ghazwanDataComplaint->last() && $value->status == 'selesai')
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colspan="6" class="px-6 py-4 capitalize text-center text-xl">
+                                Tidak ada data yang bisa di tampilkan
+                            </td>
+                        </tr>
+                        @endif
                         @if ($value->status == 0 || $value->status == 'proses')
+
 
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                 data-modal-target="ghazwanDetailModal{{ $value->id_pengaduan }}"
@@ -165,14 +186,14 @@
 
                                                 <div class="p-4 bg-white rounded-lg">
                                                     <div class="flex flex-wrap items-center gap-6 mb-4">
-                                                        <div class="flex items-center">
-                                                            <input type="radio" id="pending" name="ghazwanStatus" value="pending"
+                                                        {{-- <div class="flex items-center">
+                                                            <input type="radio" id="pending" name="ghazwanStatus" value="0"
                                                                 class="w-4 h-4 border-gray-300 text-yellow-500 focus:ring-yellow-500" {{$value->status == 0 ? 'checked' : ''}}>
                                                             <label for="0"
                                                                 class="ml-2 text-sm font-medium text-gray-700">
                                                                 Pending
                                                             </label>
-                                                        </div>
+                                                        </div> --}}
 
                                                         <div class="flex items-center">
                                                             <input type="radio" id="process" name="ghazwanStatus"
@@ -184,6 +205,7 @@
                                                             </label>
                                                         </div>
 
+                                                        @if($value->status == 'proses')
                                                         <div class="flex items-center">
                                                             <input type="radio" id="selesai" name="ghazwanStatus"
                                                                 value="selesai"
@@ -193,6 +215,7 @@
                                                                 Selesai
                                                             </label>
                                                         </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

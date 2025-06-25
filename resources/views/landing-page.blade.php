@@ -136,10 +136,8 @@
                     <label
                         class="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none relative overflow-hidden"
                         id="ghazwanDropArea">
-                        <!-- Preview Container -->
                         <img id="ghazwanPreview" class="hidden absolute inset-0 w-full h-full object-contain">
 
-                        <!-- Upload Content -->
                         <span class="flex items-center space-x-2" id="ghazwanUploadContent">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

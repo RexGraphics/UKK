@@ -51,7 +51,7 @@ class RegisterController extends Controller
         $ghazwanMasyarakat->telp = $ghazwanReq->ghazwanPhone;
         $ghazwanMasyarakat->save();
 
-        notify()->success('silahkan masuk ke akun anda', 'Akun Berhasil Dibuat!');
+        notify()->success('Tunggu verifikasi dari petugas untuk lanjut masuk ke akun anda', 'Akun Berhasil Dibuat!');
         return redirect()->route('ghazwanView.login');
     }
     public function makeUserAccount(Request $ghazwanReq)
@@ -167,10 +167,11 @@ class RegisterController extends Controller
                 Rule::unique('petugas', 'username')->ignore($id, 'id_petugas'),
             ],
             'ghazwanPassword' => 'nullable',
-            'ghazwanPhone' => 'required',
+            'ghazwanPhone' => 'required|digits_between:13,14',
             'ghazwanLevel' => 'required',
         ], [
             'ghazwanUsername.unique' => 'Username tersebut telah digunakan',
+            'ghazwanPhone.digits_between' => 'No telepon tidak valid',
         ]);
 
         $officer = Petugas::where('id_petugas', $id)->first();
@@ -193,36 +194,29 @@ class RegisterController extends Controller
         return redirect()->route('ghazwanView.admin.manage.officer');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function viewUserAccount()
     {
-        //
+        $ghazwanVerify = Masyarakat::Where('status',null)->get();
+        // if($ghazwanVerify ){
+        //     $yaya = $ghazwanVerify;
+        // }
+        // dd($yaya);
+        return view('admin.verify', compact('ghazwanVerify'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function verifyUserAccount($ghazwanNik)
     {
-        //
+        $ghazwanVerify = Masyarakat::find($ghazwanNik)->where('status',null)->first();
+        $ghazwanVerify->status = 'verified';
+        $ghazwanVerify->save();
+        return redirect()->back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $ghazwanReq, string $id)
+    public function rejectUserAccount($ghazwanNik)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $ghazwanVerify = Masyarakat::find($ghazwanNik)->where('status',null)->first();
+        $ghazwanVerify->delete();
+        return redirect()->back();
     }
 
     public function makeUserAccountView() {

@@ -58,12 +58,12 @@
             <tr>
                 <td>Periode Laporan</td>
                 <td>:</td>
-                <td>{{ $ghazwanPeriod }}</td>
+                <td>{{ $ghazwanStart == null ? $ghazwanPeriod : $ghazwanStart . ' sampai ' . $ghazwanEnd }}</td>
             </tr>
             <tr>
                 <td>Disusun Oleh</td>
                 <td>:</td>
-                <td>Tim Layanan Pengaduan</td>
+                <td>{{Auth::guard('petugas')->user()->nama_petugas;}}</td>
             </tr>
             <tr>
                 <td>Area</td>

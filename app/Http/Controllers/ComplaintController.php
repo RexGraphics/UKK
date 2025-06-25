@@ -48,7 +48,7 @@ class ComplaintController extends Controller
 
         $perPage = is_numeric($perPage) && $perPage > 0 ? (int)$perPage : 10;
 
-        $ghazwanDataComplaint = Pengaduan::paginate($perPage);
+        $ghazwanDataComplaint = Pengaduan::where('isi_laporan','like','%' . $request->ghazwanSearch . '%')->paginate($perPage);
 
 
         return view('admin.complaint', compact('ghazwanDataComplaint', 'perPage'));
@@ -63,7 +63,7 @@ class ComplaintController extends Controller
         $ghazwanDataComplaint = Pengaduan::join('tanggapan', 'pengaduan.id_pengaduan', '=', 'tanggapan.id_pengaduan')
             ->join('petugas', 'tanggapan.id_petugas', '=', 'petugas.id_petugas')
             ->distinct('pengaduan.id_pengaduan')
-            ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'petugas.nama_petugas as nama_petugas')
+            ->select('pengaduan.*', 'tanggapan.tanggapan as tanggapan', 'petugas.nama_petugas as nama_petugas')->where('isi_laporan','like','%' . $request->ghazwanSearch . '%')
             ->paginate($perPage);
 
         return view('admin.complaint-done', compact('ghazwanDataComplaint', 'perPage'));
@@ -88,8 +88,15 @@ class ComplaintController extends Controller
         $ghazwanDataComplaint->save();
 
         $ghazwanDataComplaint2 = Pengaduan::where('id_pengaduan', $ghazwanReq->ghazwanId);
-        $ghazwanDataComplaint2->update(['status' => $ghazwanReq->ghazwanStatus]);
+        $ghazwanDataComplaintView = Pengaduan::where('id_pengaduan', $ghazwanReq->ghazwanId)->first();
+        if($ghazwanDataComplaintView->status == 0){
+            $ghazwanDataComplaint2->update(['status' => 'proses']);
+        }else{
+            $ghazwanDataComplaint2->update(['status' => $ghazwanReq->ghazwanStatus]);
 
+        }
+
+        notify()->success('Pengaduan berhasil di proses','Sukses!');
         activity()->causedBy(Auth::guard('petugas')->user())->log(Auth::guard('petugas')->user()->nama_petugas . ' dengan hak akses sebagai ' . Auth::guard('petugas')->user()->level . ' telah menanggapi pengaduan dengan id' . $ghazwanReq->id_pengaduan);
         return redirect()->back();
     }
@@ -151,7 +158,13 @@ class ComplaintController extends Controller
             return redirect()->back();
         }
     }
+    public function searchComplaint(Request $ghazwanReq){
+        $ghazwanDataComplaint = Pengaduan::where('isi_pengaduan','like','%'.$ghazwanReq->search.'%');
+
+        return view('admin.complaint', compact('ghazwanDataComplaint'));
+    }
 }
+
 
     // if ($ghazwanUpdate->nik != Auth::guard('masyarakat')->user()->nik) {
     //     notify()->error('Anda tidak memiliki akses untuk mengubah pengaduan ini!', 'Gagal!');

@@ -49,6 +49,8 @@ Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], funct
 
     Route::get('/complaint', [ComplaintController::class, 'showComplaint'])->name('ghazwanView.admin.manage.complaint');
 
+    Route::post('/complaint/search', [ComplaintController::class, 'searchComplaint'])->name('ghazwanView.admin.search.complaint');
+
     Route::get('/complaint-done', [ComplaintController::class, 'showComplaintDone'])->name('ghazwanView.admin.manage.complaint.done');
 
     Route::post('/complaint/process', [ComplaintController::class, 'processComplaint'])->name('ghazwanView.admin.process.complaint');
@@ -58,6 +60,12 @@ Route::Group(['middleware' => ['auth:petugas', 'cekLevel:admin,petugas']], funct
     Route::get('/manage-officers', [ManageUserController::class, 'showOfficers'])->name('ghazwanView.admin.manage.officer');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('ghazwanView.admin.dashboard');
+
+    Route::get('/verify', [RegisterController::class, 'viewUserAccount'])->name('ghazwanView.admin.verify.user');
+
+    Route::get('/verify-account/{id}', [RegisterController::class, 'verifyUserAccount'])->name('ghazwanForm.admin.verify.user');
+
+    Route::get('/reject-account/{id}', [RegisterController::class, 'rejectUserAccount'])->name('ghazwanForm.admin.reject.user');
 
     Route::get('/register/user', [RegisterController::class, 'makeUserAccountView'])->name('ghazwanView.admin.user.add');
 
